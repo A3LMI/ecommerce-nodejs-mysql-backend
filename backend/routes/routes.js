@@ -2,6 +2,8 @@ module.exports = app => {
     const client = require("../controllers/clientController.js");
     const category = require("../controllers/categoryController.js");
     const product = require("../controllers/productController.js");
+    const order = require("../controllers/orderController.js");
+    const orderDetails = require("../controllers/orderDetailsController.js");
 
     var router = require("express").Router();
 
@@ -53,6 +55,9 @@ module.exports = app => {
     // Get all products
     router.get("/product", product.getAll);
 
+    // Get all products v2
+    router.get("/product/all", product.getAllMore);
+
     // Get product by ID
     router.get("/product/id/:id", product.getByID);
     
@@ -67,6 +72,50 @@ module.exports = app => {
     
     // Delete a product by ID
     router.delete("/product/:id", product.delete);
+
+    /***** ORDER *****/
+    // Get all orders
+    router.get("/order", order.getAll);
+
+    // Get order by ID
+    router.get("/order/id/:id", order.getByID);
+    
+    // Get number of orders
+    router.get("/order/count", order.count);
+
+    // Get number of delivered orders
+    router.get("/order/countDelivered", order.countDelivered);
+
+    // Get number of not delivered orders
+    router.get("/order/countNotDelivered", order.countNotDelivered);
+
+    // Create an order
+    router.post("/order", order.create);
+
+    // Update an order by ID
+    router.put("/order/:id", order.update);
+    
+    // Delete an order by ID
+    router.delete("/order/:id", order.delete);
+
+    /***** ORDER DETAILS *****/
+    // Get all orders details
+    router.get("/order-details", orderDetails.getAll);
+
+    // Get order details by order ID
+    router.get("/order-details/id/:id", orderDetails.getByID);
+    
+    // Get number of orders details
+    router.get("/order-details/count", orderDetails.count);
+
+    // Create an order detail
+    router.post("/order-details", orderDetails.create);
+
+    // Update order detail sby ID
+    router.put("/order-details/:id", orderDetails.update);
+    
+    // Delete order detail sby ID
+    router.delete("/order-details/:id", orderDetails.delete);
     
     app.use('/', router);
 };

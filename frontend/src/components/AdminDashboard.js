@@ -1,8 +1,7 @@
 
-import { BsFillPersonFill } from 'react-icons/bs';
-import { MdLocalOffer } from 'react-icons/md';
-import { AiOutlineStock } from 'react-icons/ai';
-import { GiWeightLiftingUp } from 'react-icons/gi';
+import { BsFillPersonFill, BsFillBookmarksFill, BsXCircle, BsCheckCircle } from 'react-icons/bs';
+import { MdOutlineFastfood } from 'react-icons/md';
+import { BiTask } from 'react-icons/bi';
 
 import AdminService from "../services/AdminService";
 
@@ -14,9 +13,17 @@ export default class AdminDashboard extends Component {
         super(props);
 
         this.numberOfProducts();
+        this.numberOfClients();
+        this.numberOfCategories();
+        this.numberOfOrders();
+        this.numberOfDeliveredOrders();
+        this.numberOfNotDeliveredOrders();
 
         this.state = {
             numberOfProducts: 0,
+            numberOfClients: 0,
+            numberOfCategories: 0,
+            numberOfOrders: 0
         }
     }
 
@@ -26,16 +33,74 @@ export default class AdminDashboard extends Component {
             this.setState({
                 numberOfProducts: response.data
             });
-            
-            console.log(response.data);
         })
         .catch(e => {
             console.log(e);
         });
     }
 
+    numberOfClients() {
+        AdminService.numberOfClients()
+        .then(response => {
+            this.setState({
+                numberOfClients: response.data
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    numberOfCategories() {
+        AdminService.numberOfCategories()
+        .then(response => {
+            this.setState({
+                numberOfCategories: response.data
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    numberOfOrders() {
+        AdminService.numberOfOrders()
+        .then(response => {
+            this.setState({
+                numberOfOrders: response.data
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    numberOfNotDeliveredOrders() {
+        AdminService.numberOfNotDeliveredOrders()
+        .then(response => {
+            this.setState({
+                numberOfNotDeliveredOrders: response.data
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    numberOfDeliveredOrders() {
+        AdminService.numberOfDeliveredOrders()
+        .then(response => {
+            this.setState({
+                numberOfDeliveredOrders: response.data
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }    
+
     render() {
-        const { numberOfProducts } = this.state;
+        const { numberOfProducts, numberOfClients, numberOfCategories, numberOfOrders, numberOfDeliveredOrders, numberOfNotDeliveredOrders } = this.state;
 
         return (
             <>        
@@ -48,10 +113,67 @@ export default class AdminDashboard extends Component {
                             <div class="icon"><BsFillPersonFill size={30} /></div>
         
                             <div>
+                                {numberOfClients && numberOfClients.map((number, index) => (
+                                    <div key={index} class="a-number">{number.count}</div>
+                                ))}
+                                <div class="stat">Clients</div>
+                            </div>
+                        </div>
+
+                        <div class="total-clients">
+                            <div class="icon"><MdOutlineFastfood size={30} /></div>
+        
+                            <div>
                                 {numberOfProducts && numberOfProducts.map((number, index) => (
                                     <div key={index} class="a-number">{number.count}</div>
                                 ))}
-                                <div class="stat">Nombre de produits</div>
+                                <div class="stat">Produits</div>
+                            </div>
+                        </div>
+
+                        <div class="total-clients">
+                            <div class="icon"><BsFillBookmarksFill size={30} /></div>
+        
+                            <div>
+                                {numberOfCategories && numberOfCategories.map((number, index) => (
+                                    <div key={index} class="a-number">{number.count}</div>
+                                ))}
+                                <div class="stat">Catégories</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="total-clients">
+                            <div class="icon"><BiTask size={30} /></div>
+        
+                            <div>
+                                {numberOfOrders && numberOfOrders.map((number, index) => (
+                                    <div key={index} class="a-number">{number.count}</div>
+                                ))}
+                                <div class="stat">Commandes totales</div>
+                            </div>
+                        </div>
+                        
+                        <div class="total-clients">
+                            <div class="icon"><BsXCircle size={30} /></div>
+        
+                            <div>
+                                {numberOfNotDeliveredOrders && numberOfNotDeliveredOrders.map((number, index) => (
+                                    <div key={index} class="a-number">{number.count}</div>
+                                ))}
+                                <div class="stat">Commandes non livrées</div>
+                            </div>
+                        </div>
+                        
+                        <div class="total-clients">
+                            <div class="icon"><BsCheckCircle size={30} /></div>
+        
+                            <div>
+                                {numberOfDeliveredOrders && numberOfDeliveredOrders.map((number, index) => (
+                                    <div key={index} class="a-number">{number.count}</div>
+                                ))}
+                                <div class="stat">Commandes livrées</div>
                             </div>
                         </div>
                     </div>

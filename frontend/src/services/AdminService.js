@@ -15,7 +15,7 @@ class AdminService {
         return http.get(`http://localhost:8080/client/id/${id}`);
     }
 
-    getClientsCount() {
+    numberOfClients() {
         return http.get("http://localhost:8080/client/count");
     }
 
@@ -61,6 +61,10 @@ class AdminService {
         return http.get("http://localhost:8080/product");
     }
 
+    getAllProductsMore() {
+        return http.get("http://localhost:8080/product/all");
+    }    
+
     getProductByID(id) {
         return http.get(`http://localhost:8080/product/id/${id}`);
     }
@@ -79,6 +83,39 @@ class AdminService {
 
     deleteProduct(id) {
         return http.delete(`http://localhost:8080/product/${id}`);
+    }
+
+    // Order
+    getAllOrders() {
+        return http.get("http://localhost:8080/order");
+    }
+
+    getOrderByID(id) {
+        return http.get(`http://localhost:8080/order/id/${id}`);
+    }
+
+    numberOfOrders() {
+        return http.get("http://localhost:8080/order/count");
+    }
+
+    numberOfDeliveredOrders() {
+        return http.get("http://localhost:8080/order/countDelivered");
+    }
+
+    numberOfNotDeliveredOrders() {
+        return http.get("http://localhost:8080/order/countNotDelivered");
+    }
+
+    addOrder(order) {
+        return http.post("http://localhost:8080/order/", order);
+    }
+    
+    updateOrder(id, order) {
+        return http.put(`http://localhost:8080/order/${id}`, order);
+    }
+
+    deleteOrder(id) {
+        return http.delete(`http://localhost:8080/order/${id}`);
     }
 
 }

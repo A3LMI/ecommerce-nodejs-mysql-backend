@@ -1,11 +1,11 @@
 
-import { CgGym } from 'react-icons/cg';
 import { RiDashboardFill } from 'react-icons/ri';
-import { BsFillPersonFill } from 'react-icons/bs';
-import { GiWeightLiftingUp } from 'react-icons/gi';
-import { AiOutlineStock } from 'react-icons/ai';
-import { MdLocalOffer } from 'react-icons/md';
+import { MdOutlineFastfood } from 'react-icons/md';
+import { RiRestaurantLine } from 'react-icons/ri';
 import { BiLogOut } from 'react-icons/bi';
+import { BsFillPersonFill, BsFillBookmarksFill } from 'react-icons/bs';
+import { BiTask } from 'react-icons/bi';
+
 
 import { BrowserRouter, Outlet, Link } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ export const Admin = () => {
         <section className='admin'>
             <div className='admin-header'>
                 <div className='admin-logo'>
-                    <div><CgGym size={50} /></div>
+                    <div><RiRestaurantLine size={50} /></div>
                     <div>Bienvenue</div>
                 </div>
 
@@ -42,8 +42,23 @@ export const Admin = () => {
 
                     <div className='admin-icons'>
                         <div><BsFillPersonFill size={27} /></div>
+                        <div><Link className='link' to="/admin/gerer-les-clients"><div>Gérer les clients</div></Link></div>
+                    </div>
+
+                    <div className='admin-icons'>
+                        <div><MdOutlineFastfood size={27} /></div>
                         <div><Link className='link' to="/admin/gerer-les-produits"><div>Gérer les produits</div></Link></div>
                     </div>
+
+                    <div className='admin-icons'>
+                        <div><BsFillBookmarksFill size={27} /></div>
+                        <div><Link className='link' to="/admin/gerer-les-categories"><div>Gérer les catégories</div></Link></div>
+                    </div>
+
+                    <div className='admin-icons'>
+                        <div><BiTask size={27} /></div>
+                        <div><Link className='link' to="/admin/gerer-les-commandes"><div>Gérer les commandes</div></Link></div>
+                    </div>                    
 
                     <div className='admin-icons'>
                         <div><BiLogOut size={27} /></div>

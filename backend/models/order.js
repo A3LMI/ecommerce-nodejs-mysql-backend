@@ -5,12 +5,12 @@ const Order = function(order) {
   this.address = order.address;
   this.phone_number = order.phone_number;
   this.delivery_date = order.delivery_date;
-  this.delivered = false;
+  this.delivered = order.delivered;
 };
 
 // get all orders
 Order.getAll = (result) => {
-  let query = "SELECT * FROM order";
+  let query = "SELECT * FROM ecommerce.order";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -25,7 +25,7 @@ Order.getAll = (result) => {
 
 // get order by ID
 Order.getByID = (id, result) => {
-  let query = "SELECT * FROM order WHERE id=" + id;
+  let query = "SELECT * FROM ecommerce.order WHERE id=" + id;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -40,7 +40,7 @@ Order.getByID = (id, result) => {
 
 // get order by client ID
 Order.getByClientID = (id, result) => {
-  let query = "SELECT * FROM order WHERE client_id=" + id;
+  let query = "SELECT * FROM ecommerce.order WHERE client_id=" + id;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -55,7 +55,7 @@ Order.getByClientID = (id, result) => {
 
 // total of orders
 Order.count = (result) => {
-  let query = "SELECT count(*) AS count FROM order";
+  let query = "SELECT count(*) AS count FROM ecommerce.order";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -70,7 +70,7 @@ Order.count = (result) => {
 
 // total of orders delivered
 Order.countDelivered = (result) => {
-  let query = "SELECT count(*) AS count FROM order WHERE delivered=1";
+  let query = "SELECT count(*) AS count FROM ecommerce.order WHERE delivered=1";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -85,7 +85,7 @@ Order.countDelivered = (result) => {
 
 // total of orders NOT delivered
 Order.countNotDelivered = (result) => {
-  let query = "SELECT count(*) AS count FROM order WHERE delivered=0";
+  let query = "SELECT count(*) AS count FROM ecommerce.order WHERE delivered=0";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -100,7 +100,7 @@ Order.countNotDelivered = (result) => {
 
 // create order
 Order.create = (newOrder, result) => {
-  sql.query("INSERT INTO order SET ?", newOrder, (err, res) => {
+  sql.query("INSERT INTO ecommerce.order SET ?", newOrder, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       result(err, null);
@@ -115,7 +115,7 @@ Order.create = (newOrder, result) => {
 // update order
 Order.update = (id, order, result) => {
   sql.query(
-    `UPDATE order
+    `UPDATE ecommerce.order
      SET client_id=?, address=?, phone_number=?, delivery_date=?, delivered=?
      WHERE id=?`,
     [order.client_id, order.address, order.phone_number, order.delivery_date, order.delivered, id],
@@ -138,7 +138,7 @@ Order.update = (id, order, result) => {
 
 // delete order by id
 Order.delete = (id, result) => {
-  sql.query("DELETE FROM order WHERE id=?", id, (err, res) => {
+  sql.query("DELETE FROM ecommerce.order WHERE id=?", id, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       result(null, err);

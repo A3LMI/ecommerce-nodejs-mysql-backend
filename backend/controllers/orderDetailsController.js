@@ -1,29 +1,7 @@
-const Product = require("../models/product.js");
-
-exports.addToCart = (req, res) => {
-  Product.addToCart((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving users."
-      });
-    else res.send(data);
-  });
-};
+const OrderDetails = require("../models/orderDetails.js");
 
 exports.getAll = (req, res) => {
-  Product.getAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving users."
-      });
-    else res.send(data);
-  });
-};
-
-exports.getAllMore = (req, res) => {
-  Product.getAllMore((err, data) => {
+  OrderDetails.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -34,7 +12,7 @@ exports.getAllMore = (req, res) => {
 };
 
 exports.getByID = (req, res) => {
-  Product.getByID(req.params.id, (err, data) => {
+  OrderDetails.getByID(req.params.id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -45,7 +23,29 @@ exports.getByID = (req, res) => {
 };
 
 exports.count = (req, res) => {
-  Product.count((err, data) => {
+  OrderDetails.count((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
+exports.countDelivered = (req, res) => {
+  OrderDetails.countDelivered((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
+exports.countNotDelivered = (req, res) => {
+  OrderDetails.countNotDelivered((err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -62,19 +62,19 @@ exports.create = (req, res) => {
     });
   }
 
-  const product = new Product ({
-    title: req.body.title,
-    description: req.body.description,
-    price: req.body.price,
-    image: req.body.image,
-    category_id: req.body.category_id
+  const orderDetails = new OrderDetails ({
+    client_id: req.body.client_id,
+    address: req.body.address,
+    phone_number: req.body.phone_number,
+    delivery_date: req.body.delivery_date,
+    delivered: false
   });
 
-  Product.create(product, (err, data) => {
+  OrderDetails.create(orderDetails, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the product."
+          err.message || "Some error occurred while creating the OrderDetails."
       });
     else res.send(data);
   });
@@ -87,15 +87,15 @@ exports.update = (req, res) => {
     });
   }
 
-  Product.update(req.params.id, new Product(req.body), (err, data) => {
+  OrderDetails.update(req.params.id, new OrderDetails(req.body), (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Product with ID: ${req.params.id} not found.`
+            message: `OrderDetails with ID: ${req.params.id} not found.`
           });
         } else {
           res.status(500).send({
-            message: `Error updating product with ID: ${req.params.id}`
+            message: `Error updating OrderDetails with ID: ${req.params.id}`
           });
         }
       } else res.send(data);
@@ -104,17 +104,17 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Product.delete(req.params.id, (err, data) => {
+  OrderDetails.delete(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Product with with ID: ${req.params.id} not found.`
+          message: `OrderDetails with with ID: ${req.params.id} not found.`
         });
       } else {
         res.status(500).send({
-          message: `Error deleting product with ID: ${req.params.id}`
+          message: `Error deleting OrderDetails with ID: ${req.params.id}`
         });
       }
-    } else res.send({ message: `Product was deleted successfully!` });
+    } else res.send({ message: `OrderDetails was deleted successfully!` });
   });
 };

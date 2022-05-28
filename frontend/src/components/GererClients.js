@@ -11,24 +11,24 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-export const GererProducts = () => {
+export const GererClients = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     useEffect(() => {    
-        getAllProducts();
+        getAllClients();
     }, [])
 
-    let _products = [{
+    let _clients = [{
 
     }];
 
-    let [products, setAllProducts] = useState(_products);
+    let [clients, setAllClients] = useState(_clients);
 
-    const getAllProducts = () => {
-        AdminService.getAllProducts()
+    const getAllClients = () => {
+        AdminService.getAllClients()
         .then(response => {
-            setAllProducts(response.data);
+            setAllClients(response.data);
         })
         .catch(e => {
             console.log(e);
@@ -68,63 +68,62 @@ export const GererProducts = () => {
         }
     };
 
-    const handleAddProduct = (data) => {
+    const handleAddClient = (data) => {
 
-        let product = {
+        let client = {
             title: data.title,
             description: data.description,
             price: data.price,
-            category_id: data.category_id,
+            client_id: data.client_id,
             image: data.image,
             rating: data.rating,
             quantity: data.quantity
         }
         
-        AdminService.addProduct(product)
+        AdminService.addClient(client)
             .then(response => {
                 setShowAddForm(false);
-                getAllProducts();
+                getAllClients();
             })
             .catch(e => {
                 console.log(e);
         });
     }
 
-    const handleUpdateProduct = (data) => {
+    const handleUpdateClient = (data) => {
 
-        let product = {
+        let client = {
             title: data.title,
             description: data.description,
-            price: data.price,
-            category_id: data.category_id,
             image: data.image,
-            rating: data.rating,
-            quantity: data.quantity
+            parent: data.parent,
+            level: data.level,
+            recommendation: data.recommendation
         }
 
-        AdminService.updateProduct(selectedToUpdate.id, product)
+        AdminService.updateClient(selectedToUpdate.id, client)
             .then(response => {
                 setShowUpdateForm(false);
-                getAllProducts();
+                getAllClients();
             })
             .catch(e => {
                 console.log(e);
         });
     }
 
-    const selectToDelete = (product) => {
-        setSelectedToDelete(product);
+    const selectToDelete = (client) => {
+        setSelectedToDelete(client);
     }
 
-    const selectToUpdate = (product) => {
-        setSelectedToDelete(product);
+    const selectToUpdate = (client) => {
+        setSelectedToDelete(client);
     }
 
-    const deleteProduct = () => {
-        AdminService.deleteProduct(selectedToDelete.id)
+    const deleteClient = () => {
+        AdminService.deleteClient(selectedToDelete.id)
         .then(response => {
             setShowDeleteForm(false)
-            getAllProducts();
+            getAllClients();
         })
         .catch(e => {
             console.log(e);
@@ -134,35 +133,35 @@ export const GererProducts = () => {
         return (
             <>
             <section className="gerer-clients">
-                <div class="admin-title">Gérer les produits</div>
+                <div class="admin-title">Gérer les clients</div>
                 
                 <div class="table-and-btn-course">
                     <table>
                         <tr>
                             <th>ID</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Prix</th>
-                            <th>Catégorie</th>
-                            <th>Image</th>
-                            <th>Note</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Adresse E-mail</th>
+                            <th>Mot de passe</th>
+                            <th>Adresse</th>
+                            <th>Numéro de téléphone</th>
                             <th>Modifier</th>
                             <th>Supprimer</th>
                         </tr>
 
-                        {products && products.map((product, index) => (
+                        {clients && clients.map((client, index) => (
                         <>
                             <tr>
-                                <td key={index}>{product.id}</td>
-                                <td key={index}>{product.title}</td>
-                                <td key={index}>{product.description}</td>
-                                <td key={index}>{product.price}</td>
-                                <td key={index}>{product.category_id}</td>
-                                <td key={index}>{product.image}</td>
-                                <td key={index}>{product.rating}</td>
+                                <td key={index}>{client.id}</td>
+                                <td key={index}>{client.first_name}</td>
+                                <td key={index}>{client.last_name}</td>
+                                <td key={index}>{client.email}</td>
+                                <td key={index}>{client.password}</td>
+                                <td key={index}>{client.address}</td>
+                                <td key={index}>{client.phone_number}</td>
                                 <td class="update">
                                         <div>
-                                            <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(product)}} class="update-btn">
+                                            <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(client)}} class="update-btn">
                                                 <div><MdModeEdit size={30} /></div>
                                             </button>
                                         </div>
@@ -170,7 +169,7 @@ export const GererProducts = () => {
 
                                     <td class="delete">
                                         <div>
-                                            <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(product)}} class="delete-btn">
+                                            <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(client)}} class="delete-btn">
                                                 <div><MdDeleteForever size={30} /></div>
                                             </button>
                                         </div>
@@ -179,10 +178,11 @@ export const GererProducts = () => {
                         </>
                         ))}
                     </table>
-                
+                    {/*           
                     <div class="add">
-                        <button onClick={() => {handleShowAddForm()}} class="add-btn"><RiAddFill size={30} />Ajouter une product</button>    
+                        <button onClick={() => {handleShowAddForm()}} class="add-btn"><RiAddFill size={30} />Ajouter un produit</button>    
                     </div>
+                    */ }
                 </div>
 
                     <div>
@@ -192,7 +192,7 @@ export const GererProducts = () => {
                             </Modal.Header>
 
                             <Modal.Body className='add-reservation-form'>
-                                <form onSubmit={handleSubmit(handleAddProduct)} className='addForm'>
+                                <form onSubmit={handleSubmit(handleAddClient)} className='addForm'>
 
                                     <div className='field'>
                                         <input type={"text"}
@@ -221,7 +221,7 @@ export const GererProducts = () => {
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Catégorie' {...register("category")} />
+                                            placeholder='Catégorie' {...register("client")} />
                                         <span></span>
                                         <label className='email-label'>Catégorie</label>
                                     </div>
@@ -259,11 +259,11 @@ export const GererProducts = () => {
                     <div>
                         <Modal className='modal' show={showUpdateForm} onHide={handleClose}>
                             <Modal.Header closeButton>
-                                <Modal.Title><div className='modal-t'>Modifier une product</div></Modal.Title>
+                                <Modal.Title><div className='modal-t'>Modifier un client</div></Modal.Title>
                             </Modal.Header>
 
                             <Modal.Body className='add-reservation-form'>
-                                <form onSubmit={handleSubmit(handleUpdateProduct)} className='addForm'>
+                                <form onSubmit={handleSubmit(handleUpdateClient)} className='addForm'>
 
                                     <div className='field'>
                                         <input type={"text"}
@@ -292,7 +292,7 @@ export const GererProducts = () => {
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Catégorie' {...register("category")} />
+                                            placeholder='Catégorie' {...register("client")} />
                                         <span></span>
                                         <label className='email-label'>Catégorie</label>
                                     </div>
@@ -335,7 +335,7 @@ export const GererProducts = () => {
 
                             <Modal.Body>
                                 <div className='etes-vous-surs'>Êtes-vous sûrs de vouloir supprimer ce produit?</div>
-                                <div className='delete-r-btn' onClick={() =>{ deleteProduct()}}>Supprimer</div>
+                                <div className='delete-r-btn' onClick={() =>{ deleteClient()}}>Supprimer</div>
                             </Modal.Body>
 
                             <Modal.Footer>

@@ -39,6 +39,22 @@ Product.getAll = (result) => {
   });
 };
 
+// get all products v2
+Product.getAllMore = (result) => {
+  let query = "SELECT product.id, product.title, product.description, product.image, product.price, product.category_id, category.title AS `category_title` FROM `product`, `category` WHERE `category`.`id`=`category_id`";
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
+};
+
+
 // get product by ID
 Product.getByID = (id, result) => {
   let query = "SELECT * FROM product WHERE id=" + id;

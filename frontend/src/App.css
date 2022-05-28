@@ -371,9 +371,10 @@ table th {
   margin-top: -3px;
 }
 
-.admin-clients > div:nth-child(1) {
+.admin-clients > div {
   display: flex;
   flex-direction: row;
+  margin-bottom: 30px;
 }
 
 .admin-icons {

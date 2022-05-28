@@ -41,15 +41,6 @@ export const GererCommandes = () => {
         });
     }
 
-    const getAllOrdersDetails = () => {
-        AdminService.getAllOrdersDetails()
-        .then(response => {
-            setAllOrdersDetails(response.data);
-        })
-        .catch(e => {
-            console.log(e);
-        });
-    }
 
     let _selectedToDelete = {
 
@@ -63,6 +54,23 @@ export const GererCommandes = () => {
     
     let [selectedToUpdate, setSelectedToUpdate] = useState(_selectedToUpdate);
 
+    let _selectedOrder = {
+
+    };
+    
+    let [selectedOrder, setSelectedOrder] = useState(_selectedOrder);
+
+    const getAllOrdersDetails = (id) => {
+        AdminService.getOrderDetailsByOrderID(id)
+        .then(response => {
+            setAllOrdersDetails(response.data);
+            
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
     const [showAddForm, setShowAddForm] = useState(false);
     const handleShowAddForm = () => setShowAddForm(true);
 
@@ -71,6 +79,9 @@ export const GererCommandes = () => {
 
     const [showDeleteForm, setShowDeleteForm] = useState(false);
     const handleShowDeleteForm = () => setShowDeleteForm(true);
+
+    const [showOrderDetails, setShowOrderDetails] = useState(false);
+    const handleShowOrderDetails = () => setShowOrderDetails(true);
 
     const handleClose = () => {
         if (showAddForm === true) {
@@ -81,6 +92,9 @@ export const GererCommandes = () => {
         }
         if (showDeleteForm === true) {
             setShowDeleteForm(false)
+        }
+        if (showOrderDetails === true) {
+            setShowOrderDetails(false)
         }
     };
 
@@ -130,6 +144,10 @@ export const GererCommandes = () => {
         setSelectedToDelete(order);
     }
 
+    const selectOrder = (order) => {
+        selectedOrder(order);
+    }
+
     const deleteProduct = () => {
         AdminService.deleteProduct(selectedToDelete.id)
         .then(response => {
@@ -162,9 +180,9 @@ export const GererCommandes = () => {
                         {orders && orders.map((order, index) => (
                         <>
                             <tr>
-                                <td key={index}>{order.id}</td>
+                                <td onClick={() => {handleShowOrderDetails(); setSelectedOrder(order); getAllOrdersDetails(order.id)}} key={index}>{order.id}</td>
                                 <td key={index}>{order.client_id}</td>
-                                <td key={index}>{order.client_id}</td>
+                                <td key={index}>{order.first_name} {order.last_name}</td>
                                 <td key={index}>{order.address}</td>
                                 <td key={index}>{order.phone_number}</td>
                                 <td key={index}>Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
@@ -357,48 +375,35 @@ export const GererCommandes = () => {
 
                     
                     <div>
-                        <Modal className='modal' show={showAddForm} onHide={handleClose}>
+                        <Modal className='modal' show={showOrderDetails} onHide={handleClose}>
                             <Modal.Header closeButton>
                                 <Modal.Title><div className='modal-t'>Détails de la commande</div></Modal.Title>
                             </Modal.Header>
 
                             <Modal.Body className='add-reservation-form'>
-
-                            </Modal.Body>
-                                <table>
+                            <table>
                                     <tr>
                                         <th>Produit</th>
                                         <th>Prix</th>
                                         <th>Quantité</th>
-                                        <th>Modifier</th>
-                                        <th>Supprimer</th>
                                     </tr>
 
                                     {ordersDetails && ordersDetails.map((order, index) => (
-                                    <>
                                         <tr>
-                                            <td key={index}>{order.produit_title}</td>
+                                            <td key={index}>{order.title}</td>
                                             <td key={index}>{order.price}</td>
                                             <td key={index}>{order.quantity}</td>
-                                            <td class="update">
-                                                    <div>
-                                                        <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(order)}} class="update-btn">
-                                                            <div><MdModeEdit size={30} /></div>
-                                                        </button>
-                                                    </div>
-                                                </td>
-
-                                                <td class="delete">
-                                                    <div>
-                                                        <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(order)}} class="delete-btn">
-                                                            <div><MdDeleteForever size={30} /></div>
-                                                        </button>
-                                                    </div>
-                                                </td>
                                         </tr>
-                                    </>
                                     ))}
+                                    
+                                    
                                 </table>
+
+                                <div>Total : </div>
+                                
+                                
+                            </Modal.Body>
+
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={handleClose}>
                                     <div className='modal-close-btn'>Fermer</div>

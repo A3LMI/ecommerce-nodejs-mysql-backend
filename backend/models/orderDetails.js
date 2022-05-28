@@ -39,7 +39,7 @@ OrderDetails.getByID = (id, result) => {
 
 // get order details by order ID
 OrderDetails.getByOrderID = (id, result) => {
-  let query = "SELECT * FROM order_details WHERE order_id=" + id;
+  let query = "SELECT `order_details`.id, `order_details`.`order_id`, `order_details`.`product_id`, `product`.`title`, `product`.`price`, `order_details`.`quantity` FROM `order_details`, `product` WHERE `order_details`.product_id=`product`.id AND `order_id`=" + id;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -53,8 +53,8 @@ OrderDetails.getByOrderID = (id, result) => {
 };
 
 // total of orders details
-OrderDetails.count = (result) => {
-  let query = "SELECT count(*) AS count FROM order_details";
+OrderDetails.count = (id, result) => {
+  let query = "SELECT count(*) AS count FROM order_details WHERE order_id=" + id;
 
   sql.query(query, (err, res) => {
     if (err) {

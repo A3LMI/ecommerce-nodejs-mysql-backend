@@ -118,5 +118,26 @@ class AdminService {
         return http.delete(`http://localhost:8080/order/${id}`);
     }
 
+    // Order Details
+    getOrderDetailsByOrderID(id) {
+        return http.get(`http://localhost:8080/order-details/orderID/${id}`);
+    }
+
+    numberOfOrderDetails(id) {
+        return http.get(`http://localhost:8080/order-details/${id}/count`);
+    }
+
+    addOrderDetail(order) {
+        return http.post("http://localhost:8080/order-details/", order);
+    }
+    
+    updateOrderDetail(id, order) {
+        return http.put(`http://localhost:8080/order-details/${id}`, order);
+    }
+
+    deleteOrderDetail(id) {
+        return http.delete(`http://localhost:8080/order-details/${id}`);
+    }
+
 }
 export default new AdminService();

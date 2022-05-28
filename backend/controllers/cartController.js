@@ -1,7 +1,7 @@
-const OrderDetails = require("../models/orderDetails.js");
+const Cart = require("../models/cart.js");
 
 exports.getAll = (req, res) => {
-  OrderDetails.getAll((err, data) => {
+  Cart.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -11,8 +11,30 @@ exports.getAll = (req, res) => {
   });
 };
 
-exports.getByOrderID = (req, res) => {
-  OrderDetails.getByOrderID(req.params.id, (err, data) => {
+exports.getByID = (req, res) => {
+  Cart.getByID(req.params.id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
+exports.getByClientID = (req, res) => {
+  Cart.getByClientID(req.params.client_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
+exports.getByClientAndSession = (req, res) => {
+  Cart.getByClientAndSession(req.params.client_id, req.params.session_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -23,7 +45,7 @@ exports.getByOrderID = (req, res) => {
 };
 
 exports.count = (req, res) => {
-  OrderDetails.count(req.params.id, (err, data) => {
+  Cart.count((err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -33,8 +55,8 @@ exports.count = (req, res) => {
   });
 };
 
-exports.countDelivered = (req, res) => {
-  OrderDetails.countDelivered((err, data) => {
+exports.countPurchased = (req, res) => {
+  Cart.countPurchased((err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -44,8 +66,8 @@ exports.countDelivered = (req, res) => {
   });
 };
 
-exports.countNotDelivered = (req, res) => {
-  OrderDetails.countNotDelivered((err, data) => {
+exports.countNotPurchased = (req, res) => {
+  Cart.countNotPurchased((err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -62,24 +84,24 @@ exports.create = (req, res) => {
     });
   }
 
-  const orderDetails = new OrderDetails ({
+  const cart = new Cart ({
     client_id: req.body.client_id,
-    address: req.body.address,
-    phone_number: req.body.phone_number,
-    delivery_date: req.body.delivery_date,
-    delivered: false
+    session_id: req.body.session_id,
+    total: req.body.total,
+    purchased: false
   });
 
-  OrderDetails.create(orderDetails, (err, data) => {
+  Cart.create(cart, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the OrderDetails."
+          err.message || "Some error occurred while creating the Cart."
       });
     else res.send(data);
   });
 };
 
+/*
 exports.update = (req, res) => {
   if (!req.body) {
     res.status(400).send({
@@ -87,34 +109,35 @@ exports.update = (req, res) => {
     });
   }
 
-  OrderDetails.update(req.params.id, new OrderDetails(req.body), (err, data) => {
+  Cart.update(req.params.id, new Cart(req.body), (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `OrderDetails with ID: ${req.params.id} not found.`
+            message: `Cart with ID: ${req.params.id} not found.`
           });
         } else {
           res.status(500).send({
-            message: `Error updating OrderDetails with ID: ${req.params.id}`
+            message: `Error updating Cart with ID: ${req.params.id}`
           });
         }
       } else res.send(data);
     }
   );
 };
+*/
 
 exports.delete = (req, res) => {
-  OrderDetails.delete(req.params.id, (err, data) => {
+  Cart.delete(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `OrderDetails with with ID: ${req.params.id} not found.`
+          message: `Cart with with ID: ${req.params.id} not found.`
         });
       } else {
         res.status(500).send({
-          message: `Error deleting OrderDetails with ID: ${req.params.id}`
+          message: `Error deleting Cart with ID: ${req.params.id}`
         });
       }
-    } else res.send({ message: `OrderDetails was deleted successfully!` });
+    } else res.send({ message: `Cart was deleted successfully!` });
   });
 };

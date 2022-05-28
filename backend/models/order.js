@@ -10,7 +10,7 @@ const Order = function(order) {
 
 // get all orders
 Order.getAll = (result) => {
-  let query = "SELECT * FROM ecommerce.order";
+  let query = "SELECT `order`.id, `order`.client_id, `order`.address, `order`.phone_number, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name FROM `ecommerce`.order, `ecommerce`.client WHERE client.id=client_id";
 
   sql.query(query, (err, res) => {
     if (err) {

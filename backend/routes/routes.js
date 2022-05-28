@@ -9,9 +9,6 @@ module.exports = app => {
 
     /***** CLIENT *****/
     // Get all clients
-    router.get("/client/login/:email/:password", client.logIn);
-
-    // Get all clients
     router.get("/client", client.getAll);
 
     // Get client by ID
@@ -39,7 +36,7 @@ module.exports = app => {
     // Get category by level
     router.get("/category/level/:level", category.getByLevel);
     
-    // Get number of clients
+    // Get number of categories
     router.get("/category/count", category.count);
 
     // Create a category
@@ -64,13 +61,13 @@ module.exports = app => {
     // Get number of products
     router.get("/product/count", product.count);
 
-    // Create a product
+    // Create product
     router.post("/product", product.create);
 
-    // Update a product by ID
+    // Update product by ID
     router.put("/product/:id", product.update);
     
-    // Delete a product by ID
+    // Delete product by ID
     router.delete("/product/:id", product.delete);
 
     /***** ORDER *****/
@@ -89,32 +86,29 @@ module.exports = app => {
     // Get number of not delivered orders
     router.get("/order/countNotDelivered", order.countNotDelivered);
 
-    // Create an order
+    // Create order
     router.post("/order", order.create);
 
-    // Update an order by ID
+    // Update order by ID
     router.put("/order/:id", order.update);
     
-    // Delete an order by ID
+    // Delete order by ID
     router.delete("/order/:id", order.delete);
 
     /***** ORDER DETAILS *****/
-    // Get all orders details
-    router.get("/order-details", orderDetails.getAll);
-
-    // Get order details by order ID
-    router.get("/order-details/id/:id", orderDetails.getByID);
+    // Get order details by order
+    router.get("/order-details/orderID/:id", orderDetails.getByOrderID);
     
-    // Get number of orders details
-    router.get("/order-details/count", orderDetails.count);
+    // Get number of order details by order
+    router.get("/order-details/orderID/:id/count", orderDetails.count);
 
-    // Create an order detail
+    // Create order detail (add product to order)
     router.post("/order-details", orderDetails.create);
 
-    // Update order detail sby ID
+    // Update order detail
     router.put("/order-details/:id", orderDetails.update);
     
-    // Delete order detail sby ID
+    // Delete order detail (delete product from order)
     router.delete("/order-details/:id", orderDetails.delete);
     
     app.use('/', router);

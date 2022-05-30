@@ -3,8 +3,9 @@ const sql = require("../config/db.js");
 const CartItem = function(CartItem) {
   this.cart_id = CartItem.cart_id;
   this.product_id = CartItem.product_id;
+  this.price = CartItem.price;
   this.quantity = CartItem.quantity;
-  this.total = this.product_id*this.quantity;
+  this.total = this.price*this.quantity;
 };
 
 // get Cart Item by ID
@@ -52,17 +53,26 @@ CartItem.count = (cart_id, result) => {
   });
 };
 
-
 // create Cart Item (add item to cart)
 CartItem.create = (newCartItem, result) => {
-  sql.query("INSERT INTO cart_item SET ?", newCartItem, (err, res) => {
+
+  let query = `
+  INSERT INTO cart_item (cart_id, product_id, price, quantity, total)
+  VALUES (`+ newCartItem.cart_id +`, `+ newCartItem.product_id +`, `+ 1 +`, `+ newCartItem.quantity +`, `+ newCartItem.quantity*1 +`);
+
+  UPDATE cart_item c
+  INNER JOIN product p ON c.product_id = p.id
+  SET c.price = p.price, c.total = c.price*c.quantity";
+  `;
+
+  sql.query(query, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("CartItem created succesfully !", { ...newCartItem });
+    console.log("Cart Item created succesfully !", { ...newCartItem });
     result(null, { ...newCartItem });
   });
 };
@@ -93,7 +103,7 @@ CartItem.update = (id, CartItem, result) => {
 };
 */
 
-// delete CartItem by id
+// delete CartItem by id (delete product from cart)
 CartItem.delete = (id, result) => {
   sql.query("DELETE FROM cart_item WHERE id=?", id, (err, res) => {
     if (err) {

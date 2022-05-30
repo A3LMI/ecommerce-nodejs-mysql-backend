@@ -87,7 +87,6 @@ exports.create = (req, res) => {
   const cart = new Cart ({
     client_id: req.body.client_id,
     session_id: req.body.session_id,
-    total: req.body.total,
     purchased: false
   });
 

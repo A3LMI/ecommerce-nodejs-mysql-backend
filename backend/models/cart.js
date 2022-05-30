@@ -2,10 +2,23 @@ const sql = require("../config/db.js");
 
 const Cart = function(Cart) {
   this.client_id = Cart.client_id;
-  this.address = Cart.address;
-  this.phone_number = Cart.phone_number;
-  this.delivery_date = Cart.delivery_date;
-  this.delivered = Cart.delivered;
+  this.session_id = Cart.session_id;
+  this.purchased = Cart.purchased;
+};
+
+// get all carts
+Cart.getAll = (result) => {
+  let query = "SELECT * FROM cart";
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
 };
 
 // get Cart by client ID
@@ -25,7 +38,7 @@ Cart.getByClientID = (client_id, result) => {
 
 // get Cart by client ID andd Session ID
 Cart.getByClientAndSession = (client_id, session_id, result) => {
-  let query = "SELECT * FROM cart WHERE client.id=" + client_id + "client_id AND session_id='" + session_id + "'";
+  let query = "SELECT * FROM cart WHERE client_id=" + client_id + " AND session_id='" + session_id + "'";
 
   sql.query(query, (err, res) => {
     if (err) {

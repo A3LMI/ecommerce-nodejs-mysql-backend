@@ -4,6 +4,9 @@ module.exports = app => {
     const product = require("../controllers/productController.js");
     const order = require("../controllers/orderController.js");
     const orderDetails = require("../controllers/orderDetailsController.js");
+    const cart = require("../controllers/cartController.js");
+    const cart_item = require("../controllers/cartItemController.js");
+    const carousel = require("../controllers/carouselController.js");
 
     var router = require("express").Router();
 
@@ -110,6 +113,66 @@ module.exports = app => {
     
     // Delete order detail (delete product from order)
     router.delete("/order-details/:id", orderDetails.delete);
+
+    /***** CART *****/
+    // Get all carts
+    router.get("/cart", cart.getAll);
+
+    // Get cart by ID
+    router.get("/cart/id/:id", cart.getByID);
+
+    // Get cart by client ID and session ID
+    router.get("/cart/client_id/:client_id/session_id/:session_id", cart.getByClientAndSession);
+    
+    // Get number of carts
+    router.get("/cart/count", cart.count);
+
+    // Get number of Purchased carts
+    router.get("/cart/countPurchased", cart.countPurchased);
+
+    // Get number of not Purchased carts
+    router.get("/cart/countNotPurchased", cart.countNotPurchased);
+
+    // Create cart
+    router.post("/cart", cart.create);
+    
+    // Delete cart by ID
+    router.delete("/cart/:id", cart.delete);
+
+    /***** CART ITEMS *****/
+    // Get all carts items
+    router.get("/cart-items/", cart_item.getAll);
+
+    // Get cart items by ID
+    router.get("/cart-items/id/:id", cart_item.getByID);
+
+    // Get cart items by cart ID
+    router.get("/cart-items/cartID/:cart_id", cart_item.getByCartID);
+    
+    // Get number of cart items by cart ID
+    router.get("/cart-items/cartID/:cart_id/count", cart_item.count);
+
+    // Create order item (add product to cart)
+    router.post("/cart-items", cart_item.create);
+    
+    // Delete cart item (delete product from cart)
+    router.delete("/cart-items/:id", cart_item.delete);
+
+    /***** CAROUSEL *****/
+    // Get all carousels
+    router.get("/carousel", carousel.getAll);
+
+    // Get carousel by ID
+    router.get("/carousel/id/:id", carousel.getByID);
+    
+    // Create carousel
+    router.post("/carousel", carousel.create);
+
+    // Update carousel
+    router.put("/carousel/:id", carousel.update);
+    
+    // Delete carousel by ID
+    router.delete("/carousel/:id", carousel.delete);
     
     app.use('/', router);
 };

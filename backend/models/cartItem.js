@@ -3,14 +3,31 @@ const sql = require("../config/db.js");
 const CartItem = function(CartItem) {
   this.cart_id = CartItem.cart_id;
   this.product_id = CartItem.product_id;
-  this.price = CartItem.price;
   this.quantity = CartItem.quantity;
-  this.total = this.price*this.quantity;
+};
+
+// get all carts items
+CartItem.getAll = (result) => {
+  let query = "SELECT * FROM cart_item";
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
 };
 
 // get Cart Item by ID
 CartItem.getByID = (id, result) => {
-  let query = "SELECT * FROM cart_item WHERE id=" + id;
+  let query = `
+  SELECT cart_item.id, cart_item.cart_id, cart_item.product_id, product.title, product.price, cart_item.quantity, product.price*cart_item.quantity AS total
+  FROM cart_item, product
+  WHERE product.id=cart_item.product_id AND id=`+ id +`
+  `;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -25,7 +42,11 @@ CartItem.getByID = (id, result) => {
 
 // get Cart Items by Cart ID
 CartItem.getByCartID = (cart_id, result) => {
-  let query = "SELECT * FROM cart_item WHERE cart_id=" + cart_id;
+  let query = `
+  SELECT cart_item.id, cart_item.cart_id, cart_item.product_id, product.title, product.price, cart_item.quantity, product.price*cart_item.quantity AS total
+  FROM cart_item, product
+  WHERE product.id=cart_item.product_id AND cart_id=`+ cart_id +`
+  `;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -40,7 +61,7 @@ CartItem.getByCartID = (cart_id, result) => {
 
 // total of cart items by Cart ID
 CartItem.count = (cart_id, result) => {
-  let query = "SELECT count(*) FROM `cart_item`, `cart` WHERE `cart`.`id`=" + cart_id;
+  let query = "SELECT count(*) AS count FROM `cart_item`, `cart` WHERE `cart`.`id`=" + cart_id;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -57,13 +78,8 @@ CartItem.count = (cart_id, result) => {
 CartItem.create = (newCartItem, result) => {
 
   let query = `
-  INSERT INTO cart_item (cart_id, product_id, price, quantity, total)
-  VALUES (`+ newCartItem.cart_id +`, `+ newCartItem.product_id +`, `+ 1 +`, `+ newCartItem.quantity +`, `+ newCartItem.quantity*1 +`);
-
-  UPDATE cart_item c
-  INNER JOIN product p ON c.product_id = p.id
-  SET c.price = p.price, c.total = c.price*c.quantity";
-  `;
+  INSERT INTO cart_item (cart_id, product_id, quantity)
+  VALUES (`+ newCartItem.cart_id +`, `+ newCartItem.product_id +`, `+ newCartItem.quantity +`);`;
 
   sql.query(query, (err, res) => {
     if (err) {

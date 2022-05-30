@@ -22,6 +22,17 @@ exports.getByID = (req, res) => {
   });
 };
 
+exports.getByClientID = (req, res) => {
+  Order.getByClientID(req.params.id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.count = (req, res) => {
   Order.count((err, data) => {
     if (err)

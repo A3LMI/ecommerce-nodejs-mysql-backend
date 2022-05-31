@@ -8,22 +8,11 @@ const Cart = function(Cart) {
 
 // get all carts
 Cart.getAll = (result) => {
-  let query = "SELECT * FROM cart";
-
-  sql.query(query, (err, res) => {
-    if (err) {
-      console.log("Error: ", err);
-      result(null, err);
-      return;
-    }
-    
-    result(null, res);
-  });
-};
-
-// get Cart by client ID
-Cart.getByClientID = (client_id, result) => {
-  let query = "SELECT * FROM cart WHERE client.id=" + client_id;
+  let query = `
+  SELECT cart.id, cart.session_id, cart.purchased, SUM(product.price*cart_item.quantity) AS total
+  FROM cart, cart_item, product
+  WHERE product.id=cart_item.product_id AND cart.id=cart_item.cart_id
+  GROUP BY cart.id`;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -51,9 +40,13 @@ Cart.getBySession = (session_id, result) => {
   });
 };
 
+
 // get Cart by Cart ID
 Cart.getByID = (id, result) => {
-  let query = "SELECT * FROM cart WHERE id=" + id;
+  let query = `
+  SELECT cart.id, cart.session_id, cart.purchased, SUM(product.price*cart_item.quantity) AS total
+  FROM cart, cart_item, product
+  WHERE product.id=cart_item.product_id AND cart.id=cart_item.cart_id AND cart.id=`+ id;
 
   sql.query(query, (err, res) => {
     if (err) {

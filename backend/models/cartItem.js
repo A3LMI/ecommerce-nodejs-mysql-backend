@@ -43,7 +43,7 @@ CartItem.getByID = (id, result) => {
 // get Cart Items by Cart ID
 CartItem.getByCartID = (cart_id, result) => {
   let query = `
-  SELECT cart_item.id, cart_item.cart_id, cart_item.product_id, product.title, product.price, cart_item.quantity, product.price*cart_item.quantity AS total
+  SELECT cart_item.id, cart_item.cart_id, cart_item.product_id, product.title, product.image, product.price, cart_item.quantity, product.price*cart_item.quantity AS total
   FROM cart_item, product
   WHERE product.id=cart_item.product_id AND cart_id=`+ cart_id +`
   `;
@@ -79,7 +79,8 @@ CartItem.create = (newCartItem, result) => {
 
   let query = `
   INSERT INTO cart_item (cart_id, product_id, quantity)
-  VALUES (`+ newCartItem.cart_id +`, `+ newCartItem.product_id +`, `+ newCartItem.quantity +`);`;
+  VALUES (`+ newCartItem.cart_id +`, `+ newCartItem.product_id +`, `+ newCartItem.quantity +`)
+  ON DUPLICATE KEY UPDATE quantity=quantity+`+ newCartItem.quantity +`;`;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -87,20 +88,19 @@ CartItem.create = (newCartItem, result) => {
       result(err, null);
       return;
     }
-
+ 
     console.log("Cart Item created succesfully !", { ...newCartItem });
     result(null, { ...newCartItem });
   });
 };
 
-/*
 // update CartItem
 CartItem.update = (id, CartItem, result) => {
   sql.query(
     `UPDATE cart_item
-     SET client_id=?, address=?, phone_number=?, delivery_date=?, delivered=?
+     SET cart_id=?, product_id=?, quantity=?
      WHERE id=?`,
-    [CartItem.client_id, CartItem.address, CartItem.phone_number, CartItem.delivery_date, CartItem.delivered, id],
+    [CartItem.cart_id, CartItem.product_id, CartItem.quantity, id],
     (err, res) => {
       if (err) {
         console.log("Error: ", err);
@@ -117,7 +117,6 @@ CartItem.update = (id, CartItem, result) => {
     }
   );
 };
-*/
 
 // delete CartItem by id (delete product from cart)
 CartItem.delete = (id, result) => {

@@ -175,6 +175,9 @@ module.exports = app => {
 
     // Create order item (add product to cart)
     router.post("/cart-items", cart_item.create);
+
+    // Update cart item
+    router.put("/cart-items/:id", cart_item.update);
     
     // Delete cart item (delete product from cart)
     router.delete("/cart-items/:id", cart_item.delete);

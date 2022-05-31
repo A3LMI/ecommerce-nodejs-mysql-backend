@@ -65,10 +65,8 @@ exports.create = (req, res) => {
       });
     else res.send(data);
   });
-
 };
 
-/*
 exports.update = (req, res) => {
   if (!req.body) {
     res.status(400).send({
@@ -91,7 +89,6 @@ exports.update = (req, res) => {
     }
   );
 };
-*/
 
 exports.delete = (req, res) => {
   CartItem.delete(req.params.id, (err, data) => {

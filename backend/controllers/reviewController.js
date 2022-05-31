@@ -1,7 +1,7 @@
-const Carousel = require("../models/carousel.js");
+const Review = require("../models/review.js");
 
 exports.getAll = (req, res) => {
-  Carousel.getAll((err, data) => {
+  Review.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:

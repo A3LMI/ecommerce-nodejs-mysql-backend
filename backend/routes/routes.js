@@ -7,10 +7,28 @@ module.exports = app => {
     const cart = require("../controllers/cartController.js");
     const cart_item = require("../controllers/cartItemController.js");
     const carousel = require("../controllers/carouselController.js");
+    const session = require("../controllers/sessionController.js");
+    const review = require("../controllers/reviewController.js");
 
     var router = require("express").Router();
 
+    /***** SESSION *****/
+    // Get all sessions
+    router.get("/session", session.getAll);
+
+    // Get session by ID
+    router.get("/session/id/:id", session.getByID);
+
+    // Create a session
+    router.get("/session/new", session.create);
+    
+    // Delete a session by ID
+    router.delete("/session/:id", session.delete);
+    
     /***** CLIENT *****/
+    // Log In
+    router.get("/login/:email/:password", client.logIn);
+    
     // Get all clients
     router.get("/client", client.getAll);
 
@@ -124,8 +142,8 @@ module.exports = app => {
     // Get cart by ID
     router.get("/cart/id/:id", cart.getByID);
 
-    // Get cart by client ID and session ID
-    router.get("/cart/client_id/:client_id/session_id/:session_id", cart.getByClientAndSession);
+    // Get cart by session ID
+    router.get("/cart/session_id/:session_id", cart.getBySession);
     
     // Get number of carts
     router.get("/cart/count", cart.count);
@@ -165,17 +183,9 @@ module.exports = app => {
     // Get all carousels
     router.get("/carousel", carousel.getAll);
 
-    // Get carousel by ID
-    router.get("/carousel/id/:id", carousel.getByID);
-    
-    // Create carousel
-    router.post("/carousel", carousel.create);
-
-    // Update carousel
-    router.put("/carousel/:id", carousel.update);
-    
-    // Delete carousel by ID
-    router.delete("/carousel/:id", carousel.delete);
+    /***** REVIEW *****/
+    // Get all reviews
+    router.get("/review", review.getAll);
     
     app.use('/', router);
 };

@@ -33,8 +33,8 @@ exports.getByClientID = (req, res) => {
   });
 };
 
-exports.getByClientAndSession = (req, res) => {
-  Cart.getByClientAndSession(req.params.client_id, req.params.session_id, (err, data) => {
+exports.getBySession = (req, res) => {
+  Cart.getBySession(req.params.session_id, (err, data) => {
     if (err)
       res.status(500).send({
         message:

@@ -36,9 +36,9 @@ Cart.getByClientID = (client_id, result) => {
   });
 };
 
-// get Cart by client ID andd Session ID
-Cart.getByClientAndSession = (client_id, session_id, result) => {
-  let query = "SELECT * FROM cart WHERE client_id=" + client_id + " AND session_id='" + session_id + "'";
+// get Cart by Session ID
+Cart.getBySession = (session_id, result) => {
+  let query = "SELECT * FROM cart WHERE session_id='" + session_id + "'";
 
   sql.query(query, (err, res) => {
     if (err) {

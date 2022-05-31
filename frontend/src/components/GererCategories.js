@@ -73,11 +73,7 @@ export const GererCategories = () => {
         let category = {
             title: data.title,
             description: data.description,
-            price: data.price,
-            category_id: data.category_id,
-            image: data.image,
-            rating: data.rating,
-            quantity: data.quantity
+            image: data.image
         }
         
         AdminService.addCategory(category)
@@ -95,10 +91,7 @@ export const GererCategories = () => {
         let category = {
             title: data.title,
             description: data.description,
-            image: data.image,
-            parent: data.parent,
-            level: data.level,
-            recommendation: data.recommendation
+            image: data.image
         }
 
         AdminService.updateCategory(selectedToUpdate.id, category)
@@ -278,33 +271,9 @@ export const GererCategories = () => {
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Prix' {...register("price")} />
-                                        <span></span>
-                                        <label className='email-label'>Prix</label>
-                                    </div>
-
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Catégorie' {...register("category")} />
-                                        <span></span>
-                                        <label className='email-label'>Catégorie</label>
-                                    </div>
-
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
                                             placeholder='Image' {...register("image")} />
                                         <span></span>
                                         <label className='email-label'>Image</label>
-                                    </div>
-
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Note' {...register("rating")} />
-                                        <span></span>
-                                        <label className='email-label'>Note</label>
                                     </div>
 
                                     <div>

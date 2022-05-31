@@ -71,13 +71,13 @@ export const GererClients = () => {
     const handleAddClient = (data) => {
 
         let client = {
-            title: data.title,
-            description: data.description,
-            price: data.price,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
             client_id: data.client_id,
-            image: data.image,
-            rating: data.rating,
-            quantity: data.quantity
+            password: data.password,
+            address: data.address,
+            phone_number: data.phone_number
         }
         
         AdminService.addClient(client)
@@ -93,12 +93,13 @@ export const GererClients = () => {
     const handleUpdateClient = (data) => {
 
         let client = {
-            title: data.title,
-            description: data.description,
-            image: data.image,
-            parent: data.parent,
-            level: data.level,
-            recommendation: data.recommendation
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            client_id: data.client_id,
+            password: data.password,
+            address: data.address,
+            phone_number: data.phone_number
         }
 
         AdminService.updateClient(selectedToUpdate.id, client)
@@ -197,49 +198,49 @@ export const GererClients = () => {
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Titre' {...register("title")} />
+                                            placeholder='Prénom' {...register("first_name")} />
                                         <span></span>
-                                        <label className='email-label'>Titre</label>
+                                        <label className='email-label'>Prénom</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Description' {...register("description")} />
+                                            placeholder='Nom' {...register("last_name")} />
                                         <span></span>
-                                        <label className='email-label'>Description</label>
+                                        <label className='email-label'>Nom</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Prix' {...register("price")} />
+                                            placeholder='Adresse e-mail' {...register("email")} />
                                         <span></span>
-                                        <label className='email-label'>Prix</label>
+                                        <label className='email-label'>Adresse e-mail</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Catégorie' {...register("client")} />
+                                            placeholder='Mot de passe' {...register("password")} />
                                         <span></span>
-                                        <label className='email-label'>Catégorie</label>
+                                        <label className='email-label'>Mot de passe</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Image' {...register("image")} />
+                                            placeholder='Adresse' {...register("address")} />
                                         <span></span>
-                                        <label className='email-label'>Image</label>
+                                        <label className='email-label'>Adresse</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Note' {...register("rating")} />
+                                            placeholder='Numéro de téléphone' {...register("phone_number")} />
                                         <span></span>
-                                        <label className='email-label'>Note</label>
+                                        <label className='email-label'>Numéro de téléphone</label>
                                     </div>
 
                                     <div>
@@ -265,52 +266,52 @@ export const GererClients = () => {
                             <Modal.Body className='add-reservation-form'>
                                 <form onSubmit={handleSubmit(handleUpdateClient)} className='addForm'>
 
-                                    <div className='field'>
+                                <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Titre' {...register("title")} />
+                                            placeholder='Prénom' {...register("first_name")} />
                                         <span></span>
-                                        <label className='email-label'>Titre</label>
+                                        <label className='email-label'>Prénom</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Description' {...register("description")} />
+                                            placeholder='Nom' {...register("last_name")} />
                                         <span></span>
-                                        <label className='email-label'>Description</label>
+                                        <label className='email-label'>Nom</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Prix' {...register("price")} />
+                                            placeholder='Adresse e-mail' {...register("email")} />
                                         <span></span>
-                                        <label className='email-label'>Prix</label>
+                                        <label className='email-label'>Adresse e-mail</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Catégorie' {...register("client")} />
+                                            placeholder='Mot de passe' {...register("password")} />
                                         <span></span>
-                                        <label className='email-label'>Catégorie</label>
+                                        <label className='email-label'>Mot de passe</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Image' {...register("image")} />
+                                            placeholder='Adresse' {...register("address")} />
                                         <span></span>
-                                        <label className='email-label'>Image</label>
+                                        <label className='email-label'>Adresse</label>
                                     </div>
 
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'
-                                            placeholder='Note' {...register("rating")} />
+                                            placeholder='Numéro de téléphone' {...register("phone_number")} />
                                         <span></span>
-                                        <label className='email-label'>Note</label>
+                                        <label className='email-label'>Numéro de téléphone</label>
                                     </div>
 
                                     <div>

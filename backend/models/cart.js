@@ -1,7 +1,6 @@
 const sql = require("../config/db.js");
 
 const Cart = function(Cart) {
-  this.client_id = Cart.client_id;
   this.session_id = Cart.session_id;
   this.purchased = Cart.purchased;
 };

@@ -92,9 +92,9 @@ Client.create = (newClient, result) => {
 Client.update = (id, client, result) => {
   sql.query(
     `UPDATE client
-     SET first_name=?, last_name=?, email=?, password=?, address=?, phone_number=?, created_at=?, modified_at=?
+     SET first_name=?, last_name=?, email=?, password=?, address=?, phone_number=?
      WHERE id=?`,
-    [client.first_name, client.last_name, client.email, client.password, client.address, client.phone_number, client.created_at, client.modified_at, id],
+    [client.first_name, client.last_name, client.email, client.password, client.address, client.phone_number, id],
     (err, res) => {
       if (err) {
         console.log("Error: ", err);

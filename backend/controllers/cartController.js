@@ -85,7 +85,6 @@ exports.create = (req, res) => {
   }
 
   const cart = new Cart ({
-    client_id: req.body.client_id,
     session_id: req.body.session_id,
     purchased: false
   });

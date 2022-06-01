@@ -6,6 +6,7 @@ import { BiTask } from 'react-icons/bi';
 import AdminService from "../services/AdminService";
 
 import { Component } from 'react';
+import { GererCommandes } from './GererCommandes';
 
 export default class AdminDashboard extends Component {
 
@@ -18,7 +19,7 @@ export default class AdminDashboard extends Component {
         this.numberOfOrders();
         this.numberOfDeliveredOrders();
         this.numberOfNotDeliveredOrders();
-
+        
         this.state = {
             numberOfProducts: 0,
             numberOfClients: 0,
@@ -97,7 +98,9 @@ export default class AdminDashboard extends Component {
         .catch(e => {
             console.log(e);
         });
-    }    
+    }
+
+
 
     render() {
         const { numberOfProducts, numberOfClients, numberOfCategories, numberOfOrders, numberOfDeliveredOrders, numberOfNotDeliveredOrders } = this.state;
@@ -107,18 +110,17 @@ export default class AdminDashboard extends Component {
             <section className='admin-center'>
                 <div class="admin-title">Tableau de bord</div>
     
-                <div className='admin-clients'>
-                    <div>
-                        <div class="total-clients">
-                            <div class="icon"><BsFillPersonFill size={30} /></div>
+                <div className='admin-clients'>                    
+                    <div class="total-clients">
+                        <div class="icon"><BsFillPersonFill size={30} /></div>
         
-                            <div>
-                                {numberOfClients && numberOfClients.map((number, index) => (
-                                    <div key={index} class="a-number">{number.count}</div>
-                                ))}
+                        <div>
+                            {numberOfClients && numberOfClients.map((number, index) => (
+                                <div key={index} class="a-number">{number.count}</div>
+                            ))}
                                 <div class="stat">Clients</div>
-                            </div>
                         </div>
+                    </div>
 
                         <div class="total-clients">
                             <div class="icon"><MdOutlineFastfood size={30} /></div>
@@ -141,9 +143,7 @@ export default class AdminDashboard extends Component {
                                 <div class="stat">Catégories</div>
                             </div>
                         </div>
-                    </div>
 
-                    <div>
                         <div class="total-clients">
                             <div class="icon"><BiTask size={30} /></div>
         
@@ -155,6 +155,7 @@ export default class AdminDashboard extends Component {
                             </div>
                         </div>
                         
+                        {/*
                         <div class="total-clients">
                             <div class="icon"><BsXCircle size={30} /></div>
         
@@ -176,8 +177,13 @@ export default class AdminDashboard extends Component {
                                 <div class="stat">Commandes livrées</div>
                             </div>
                         </div>
-                    </div>
+                        */}
+
                 </div>
+            </section>
+
+            <section>
+                <GererCommandes/>
             </section>
             </>
         );

@@ -251,7 +251,6 @@ export const GererCategories = () => {
 
                             <Modal.Body className='add-reservation-form'>
                                 <form onSubmit={handleSubmit(handleUpdateCategory)} className='addForm'>
-
                                     <div className='field'>
                                         <input type={"text"}
                                             className='email'

@@ -96,7 +96,6 @@ export const GererClients = () => {
             first_name: data.first_name,
             last_name: data.last_name,
             email: data.email,
-            client_id: data.client_id,
             password: data.password,
             address: data.address,
             phone_number: data.phone_number
@@ -266,52 +265,58 @@ export const GererClients = () => {
                             <Modal.Body className='add-reservation-form'>
                                 <form onSubmit={handleSubmit(handleUpdateClient)} className='addForm'>
 
-                                <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Prénom' {...register("first_name")} />
-                                        <span></span>
-                                        <label className='email-label'>Prénom</label>
+                                    <div className='field-container'>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Prénom' {...register("first_name")}/>
+                                            <span></span>
+                                            <label className='email-label'>Prénom</label>
+                                        </div>
+
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Nom' {...register("last_name")} />
+                                            <span></span>
+                                            <label className='email-label'>Nom</label>
+                                        </div>
                                     </div>
 
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Nom' {...register("last_name")} />
-                                        <span></span>
-                                        <label className='email-label'>Nom</label>
+                                    <div className='field-container'>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Adresse e-mail' {...register("email")} />
+                                            <span></span>
+                                            <label className='email-label'>Adresse e-mail</label>
+                                        </div>
+
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Mot de passe' {...register("password")} />
+                                            <span></span>
+                                            <label className='email-label'>Mot de passe</label>
+                                        </div>
                                     </div>
 
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Adresse e-mail' {...register("email")} />
-                                        <span></span>
-                                        <label className='email-label'>Adresse e-mail</label>
-                                    </div>
+                                    <div className='field-container'>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Adresse' {...register("address")} />
+                                            <span></span>
+                                            <label className='email-label'>Adresse</label>
+                                        </div>
 
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Mot de passe' {...register("password")} />
-                                        <span></span>
-                                        <label className='email-label'>Mot de passe</label>
-                                    </div>
-
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Adresse' {...register("address")} />
-                                        <span></span>
-                                        <label className='email-label'>Adresse</label>
-                                    </div>
-
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Numéro de téléphone' {...register("phone_number")} />
-                                        <span></span>
-                                        <label className='email-label'>Numéro de téléphone</label>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Numéro de téléphone' {...register("phone_number")} />
+                                            <span></span>
+                                            <label className='email-label'>Numéro de téléphone</label>
+                                        </div>
                                     </div>
 
                                     <div>

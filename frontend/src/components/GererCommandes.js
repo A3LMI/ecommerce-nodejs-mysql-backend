@@ -1,4 +1,4 @@
-import { RiAddFill } from 'react-icons/ri';
+import { AiFillEye } from 'react-icons/ai';
 import { MdModeEdit, MdDeleteForever } from 'react-icons/md';
 
 import AdminService from "../services/AdminService";
@@ -41,6 +41,8 @@ export const GererCommandes = () => {
         });
     }
 
+    setInterval(() => {getAllOrders();}, 5000);
+
 
     let _selectedToDelete = {
 
@@ -70,6 +72,22 @@ export const GererCommandes = () => {
             console.log(e);
         });
     }
+
+    let _total = [{
+
+    }];
+    
+    let [total, setTotal] = useState(_total);
+
+    const getTotalByOrderID = (id) => {
+        AdminService.getTotalByOrderID(id)
+        .then(response => {
+            setTotal(response.data);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }    
 
     const [showAddForm, setShowAddForm] = useState(false);
     const handleShowAddForm = () => setShowAddForm(true);
@@ -168,39 +186,49 @@ export const GererCommandes = () => {
                     <table>
                         <tr>
                             <th>ID de la commande</th>
-                            <th>ID du client</th>
-                            <th>Nom du client</th>
-                            <th>Adresse de la livraison</th>
+                            <th>Date de la commande</th>
+                            <th>Client</th>
+                            <th>Adresse de livraison</th>
                             <th>Numéro de téléphone</th>
                             <th>Date de livraison</th>
-                            <th>Modifier</th>
+                            <th>Détails</th>
                             <th>Supprimer</th>
                         </tr>
 
                         {orders && orders.map((order, index) => (
                         <>
                             <tr>
-                                <td onClick={() => {handleShowOrderDetails(); setSelectedOrder(order); getAllOrdersDetails(order.id)}} key={index}>{order.id}</td>
-                                <td key={index}>{order.client_id}</td>
+                                <td key={index}>{order.id}</td>
+                                <td key={index}>Le {String(order.created_at).slice(0,10)}, à {String(order.created_at).slice(11,16)}</td>
                                 <td key={index}>{order.first_name} {order.last_name}</td>
                                 <td key={index}>{order.address}</td>
                                 <td key={index}>{order.phone_number}</td>
                                 <td key={index}>Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
                                 <td class="update">
-                                        <div>
-                                            <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(order)}} class="update-btn">
-                                                <div><MdModeEdit size={30} /></div>
-                                            </button>
-                                        </div>
-                                    </td>
+                                    <div>
+                                        <button onClick={() => {handleShowOrderDetails(); getTotalByOrderID(order.id); setSelectedOrder(order); getAllOrdersDetails(order.id);}} class="update-btn">
+                                            <div><AiFillEye size={26} /></div>
+                                        </button>
+                                    </div>
+                                </td>
+                                
+                                {/*
+                                <td class="update">
+                                    <div>
+                                        <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(order)}} class="update-btn">
+                                            <div><MdModeEdit size={30} /></div>
+                                        </button>
+                                    </div>
+                                </td>
+                                */}
 
-                                    <td class="delete">
-                                        <div>
-                                            <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(order)}} class="delete-btn">
-                                                <div><MdDeleteForever size={30} /></div>
-                                            </button>
-                                        </div>
-                                    </td>
+                                <td class="delete">
+                                    <div>
+                                        <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(order)}} class="delete-btn">
+                                            <div><MdDeleteForever size={30} /></div>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         </>
                         ))}
@@ -381,7 +409,7 @@ export const GererCommandes = () => {
                             </Modal.Header>
 
                             <Modal.Body className='add-reservation-form'>
-                            <table>
+                                <table>
                                     <tr>
                                         <th>Produit</th>
                                         <th>Prix</th>
@@ -394,13 +422,10 @@ export const GererCommandes = () => {
                                             <td key={index}>{order.price}</td>
                                             <td key={index}>{order.quantity}</td>
                                         </tr>
-                                    ))}
-                                    
-                                    
+                                    ))}  
                                 </table>
-
-                                <div>Total : </div>
                                 
+                                <div className='total'>Total : {total[0].total} MAD</div>
                                 
                             </Modal.Body>
 

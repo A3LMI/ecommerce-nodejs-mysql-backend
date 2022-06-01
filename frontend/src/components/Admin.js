@@ -53,12 +53,7 @@ export const Admin = () => {
                     <div className='admin-icons'>
                         <div><BsFillBookmarksFill size={27} /></div>
                         <div><Link className='link' to="/admin/gerer-les-categories"><div>Gérer les catégories</div></Link></div>
-                    </div>
-
-                    <div className='admin-icons'>
-                        <div><BiTask size={27} /></div>
-                        <div><Link className='link' to="/admin/gerer-les-commandes"><div>Gérer les commandes</div></Link></div>
-                    </div>                    
+                    </div>                
 
                     <div className='admin-icons'>
                         <div><BiLogOut size={27} /></div>
@@ -67,9 +62,6 @@ export const Admin = () => {
                 </section>
 
                 <section className='outlet'>
-                    <div>
-                        
-                    </div>
                     <Outlet />
                 </section>
             </main>

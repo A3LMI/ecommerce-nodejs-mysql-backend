@@ -22,6 +22,24 @@ OrderDetails.getAll = (result) => {
   });
 };
 
+// get total by order id
+OrderDetails.getTotalByOrderID = (id, result) => {
+  let query = `
+  SELECT order_details.order_id, SUM(product.price*order_details.quantity) as total
+  FROM order_details, product
+  WHERE product.id=order_details.product_id AND order_details.order_id=`+ id;
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
+};
+
 // get order details by ID
 OrderDetails.getByID = (id, result) => {
   let query = "SELECT * FROM order_details WHERE id=" + id;

@@ -11,7 +11,7 @@ module.exports = app => {
     const review = require("../controllers/reviewController.js");
 
     var router = require("express").Router();
-
+    
     /***** SESSION *****/
     // Get all sessions
     router.get("/session", session.getAll);
@@ -19,15 +19,18 @@ module.exports = app => {
     // Get session by ID
     router.get("/session/id/:id", session.getByID);
 
-    // Create a session
+    // Create session
     router.get("/session/new", session.create);
+    
+    // Update session
+    router.put("/session/:id", session.updateID);
     
     // Delete a session by ID
     router.delete("/session/:id", session.delete);
     
     /***** CLIENT *****/
     // Log In
-    router.get("/login/:email/:password", client.logIn);
+    router.post("/login/", client.logIn);
     
     // Get all clients
     router.get("/client", client.getAll);
@@ -122,6 +125,9 @@ module.exports = app => {
     /***** ORDER DETAILS *****/
     // Get order details by order
     router.get("/order-details/orderID/:id", orderDetails.getByOrderID);
+
+    // Get total by order ID
+    router.get("/order-details/orderID/:id/total", orderDetails.getTotalByOrderID);
     
     // Get number of order details by order
     router.get("/order-details/orderID/:id/count", orderDetails.count);

@@ -117,6 +117,29 @@ Cart.create = (newCart, result) => {
   });
 };
 
+Cart.setPurchase = (id, result) => {
+  sql.query(
+    `UPDATE cart
+     SET delivered=true
+     WHERE id=?`,
+    [id],
+    (err, res) => {
+      if (err) {
+        console.log("Error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("Cart with id " + id + " updated succesfully !", { id: id, ...Cart });
+      result(null, { id: id, ...Cart });
+    }
+  );
+};
+
 /*
 // update Cart
 Cart.update = (id, Cart, result) => {

@@ -1,13 +1,14 @@
 const Client = require("../models/client.js");
 
 exports.logIn = (req, res) => {
-  Client.logIn(req.params.email, req.params.password, (err, data) => {
+  Client.logIn(req.body.email, req.body.password, (err, data) => {
     if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving users."
       });
     else {
+      req.session.guest = false;
       req.session.user = data;
       console.log(req.session);
       res.send(data);

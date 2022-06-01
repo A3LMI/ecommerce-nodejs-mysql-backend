@@ -36,14 +36,13 @@ Session.getByID = (id, result) => {
   });
 };
 
-/*
-// update Session
-Session.update = (id, Session, result) => {
+// update SessionID
+Session.updateID = (id, Session, result) => {
   sql.query(
     `UPDATE session
-     SET client_id=?, address=?, phone_number=?, delivery_date=?, delivered=?
-     WHERE id=?`,
-    [Session.client_id, Session.address, Session.phone_number, Session.delivery_date, Session.delivered, id],
+     SET session_id=?
+     WHERE session_id=?`,
+    [Session.session_id, id],
     (err, res) => {
       if (err) {
         console.log("Error: ", err);
@@ -60,7 +59,6 @@ Session.update = (id, Session, result) => {
     }
   );
 };
-*/
 
 // delete Session by id
 Session.delete = (id, result) => {

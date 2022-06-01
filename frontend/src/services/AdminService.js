@@ -123,6 +123,10 @@ class AdminService {
         return http.get(`http://localhost:8080/order-details/orderID/${id}`);
     }
 
+    getTotalByOrderID(id) {
+        return http.get(`http://localhost:8080/order-details/orderID/${id}/total`);
+    }
+
     numberOfOrderDetails(id) {
         return http.get(`http://localhost:8080/order-details/${id}/count`);
     }

@@ -154,7 +154,9 @@
 
 .outlet {
   height: 100%;
-  width: 100%;  margin-left: 310px;
+  width: 100%; 
+  margin-left: 310px;
+  max-width: -webkit-fill-available;
 }
 
 .admin-center {
@@ -324,6 +326,11 @@ table th {
   font-size: 17px;
 }
 
+.total {
+  font-size: 30px !important;
+  margin-top: 7px;
+}
+
 /***/
 
 .stat,
@@ -371,10 +378,22 @@ table th {
   margin-top: -3px;
 }
 
+.admin-clients {
+  display: flex;
+  flex-direction: row;
+  max-width: -webkit-fill-available;
+}
+
 .admin-clients > div {
   display: flex;
   flex-direction: row;
   margin-bottom: 30px;
+}
+
+.field-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .admin-icons {

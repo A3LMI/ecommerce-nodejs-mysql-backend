@@ -22,6 +22,17 @@ exports.getByOrderID = (req, res) => {
   });
 };
 
+exports.getTotalByOrderID = (req, res) => {
+  OrderDetails.getTotalByOrderID(req.params.id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.count = (req, res) => {
   OrderDetails.count(req.params.id, (err, data) => {
     if (err)

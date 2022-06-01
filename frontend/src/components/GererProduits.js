@@ -17,6 +17,7 @@ export const GererProduits = () => {
 
     useEffect(() => {    
         getAllProducts();
+        getAllCategories();
     }, [])
 
     let _products = [{
@@ -24,6 +25,12 @@ export const GererProduits = () => {
     }];
 
     let [products, setAllProducts] = useState(_products);
+
+    let _categories = [{
+
+    }];
+
+    let [categories, setAllCategories] = useState(_categories);
 
     const getAllProducts = () => {
         AdminService.getAllProductsMore()
@@ -67,6 +74,18 @@ export const GererProduits = () => {
             setShowDeleteForm(false)
         }
     };
+
+    const getAllCategories = () => {
+
+        AdminService.getAllCategories()
+            .then(response => {
+                setAllCategories(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+        });
+
+    }
 
     const handleAddProduct = (data) => {
 
@@ -144,6 +163,7 @@ export const GererProduits = () => {
                             <th>Description</th>
                             <th>Prix</th>
                             <th>Catégorie</th>
+                            <th>Note</th>
                             <th>Image</th>
                             <th>Modifier</th>
                             <th>Supprimer</th>
@@ -157,10 +177,11 @@ export const GererProduits = () => {
                                 <td key={index}>{product.description}</td>
                                 <td key={index}>{product.price}</td>
                                 <td key={index}>{product.category_title}</td>
+                                <td key={index}>{product.rating}</td>
                                 <td key={index}>{product.image}</td>
                                 <td class="update">
                                         <div>
-                                            <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(product)}} class="update-btn">
+                                            <button onClick={() => {handleShowUpdateForm(); getAllCategories(); setSelectedToUpdate(product)}} class="update-btn">
                                                 <div><MdModeEdit size={30} /></div>
                                             </button>
                                         </div>
@@ -264,52 +285,62 @@ export const GererProduits = () => {
                             <Modal.Body className='add-reservation-form'>
                                 <form onSubmit={handleSubmit(handleUpdateProduct)} className='addForm'>
 
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Titre' {...register("title")} />
-                                        <span></span>
-                                        <label className='email-label'>Titre</label>
+                                    <div className='field-container'>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Titre' {...register("title")} />
+                                            <span></span>
+                                            <label className='email-label'>Titre</label>
+                                        </div>
+
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Description' {...register("description")} />
+                                            <span></span>
+                                            <label className='email-label'>Description</label>
+                                        </div>
                                     </div>
 
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Description' {...register("description")} />
-                                        <span></span>
-                                        <label className='email-label'>Description</label>
+                                    <div className='field-container'>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Prix' {...register("price")} />
+                                            <span></span>
+                                            <label className='email-label'>Prix</label>
+                                        </div>
+
+                                        <div className='field'>
+                                            <select className='client-genre-add select-genre' {...register("category")}>
+                                                <option value={""} disabled>Category</option>
+                                                {categories.map((category, index) => {
+                                                    console.log("category : " + category.id + " " + category.title);
+                                                    <option value={category.id}>{category.title}</option>
+                                                })}   
+                                            </select>
+                                            <span></span>
+                                            <label className='email-label'>Catégorie</label>
+                                        </div>
                                     </div>
 
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Prix' {...register("price")} />
-                                        <span></span>
-                                        <label className='email-label'>Prix</label>
-                                    </div>
+                                    <div className='field-container'>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Image' {...register("image")} />
+                                            <span></span>
+                                            <label className='email-label'>Image</label>
+                                        </div>
 
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Catégorie' {...register("category")} />
-                                        <span></span>
-                                        <label className='email-label'>Catégorie</label>
-                                    </div>
-
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Image' {...register("image")} />
-                                        <span></span>
-                                        <label className='email-label'>Image</label>
-                                    </div>
-
-                                    <div className='field'>
-                                        <input type={"text"}
-                                            className='email'
-                                            placeholder='Note' {...register("rating")} />
-                                        <span></span>
-                                        <label className='email-label'>Note</label>
+                                        <div className='field'>
+                                            <input type={"text"}
+                                                className='email'
+                                                placeholder='Note' {...register("rating")} />
+                                            <span></span>
+                                            <label className='email-label'>Note</label>
+                                        </div>
                                     </div>
 
                                     <div>

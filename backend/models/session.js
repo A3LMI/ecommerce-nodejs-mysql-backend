@@ -39,7 +39,7 @@ Session.getByID = (id, result) => {
 // update SessionID
 Session.updateID = (id, Session, result) => {
   sql.query(
-    `UPDATE session
+    `UPDATE sessions
      SET session_id=?
      WHERE session_id=?`,
     [Session.session_id, id],

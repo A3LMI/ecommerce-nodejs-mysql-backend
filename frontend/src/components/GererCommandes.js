@@ -41,7 +41,7 @@ export const GererCommandes = () => {
         });
     }
 
-    setInterval(() => {getAllOrders();}, 5000);
+    // setInterval(() => {getAllOrders();}, 5000);
 
 
     let _selectedToDelete = {
@@ -66,7 +66,6 @@ export const GererCommandes = () => {
         AdminService.getOrderDetailsByOrderID(id)
         .then(response => {
             setAllOrdersDetails(response.data);
-            
         })
         .catch(e => {
             console.log(e);
@@ -180,10 +179,13 @@ export const GererCommandes = () => {
         return (
             <>
             <section className="gerer-clients">
-                <div class="admin-title">Gérer les commandes</div>
+                <div className="admin-title">Gérer les commandes</div>
                 
-                <div class="table-and-btn-course">
+                <div className="table-and-btn-course">
                     <table>
+                        <thead>
+                            
+                        </thead>
                         <tr>
                             <th>ID de la commande</th>
                             <th>Date de la commande</th>
@@ -195,36 +197,36 @@ export const GererCommandes = () => {
                             <th>Supprimer</th>
                         </tr>
 
-                        {orders && orders.map((order, index) => (
+                        {orders && orders.map((order) => (
                         <>
                             <tr>
-                                <td key={index}>{order.id}</td>
-                                <td key={index}>Le {String(order.created_at).slice(0,10)}, à {String(order.created_at).slice(11,16)}</td>
-                                <td key={index}>{order.first_name} {order.last_name}</td>
-                                <td key={index}>{order.address}</td>
-                                <td key={index}>{order.phone_number}</td>
-                                <td key={index}>Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
-                                <td class="update">
+                                <td >{order.id}</td>
+                                <td >Le {String(order.created_at).slice(0,10)}, à {String(order.created_at).slice(11,16)}</td>
+                                <td >{order.first_name} {order.last_name}</td>
+                                <td >{order.address}</td>
+                                <td >{order.phone_number}</td>
+                                <td >Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
+                                <td className="update">
                                     <div>
-                                        <button onClick={() => {handleShowOrderDetails(); getTotalByOrderID(order.id); setSelectedOrder(order); getAllOrdersDetails(order.id);}} class="update-btn">
+                                        <button onClick={() => {handleShowOrderDetails(); getTotalByOrderID(order.id); setSelectedOrder(order); getAllOrdersDetails(order.id);}} className="update-btn">
                                             <div><AiFillEye size={26} /></div>
                                         </button>
                                     </div>
                                 </td>
                                 
                                 {/*
-                                <td class="update">
+                                <td className="update">
                                     <div>
-                                        <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(order)}} class="update-btn">
+                                        <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(order)}} className="update-btn">
                                             <div><MdModeEdit size={30} /></div>
                                         </button>
                                     </div>
                                 </td>
                                 */}
 
-                                <td class="delete">
+                                <td className="delete">
                                     <div>
-                                        <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(order)}} class="delete-btn">
+                                        <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(order)}} className="delete-btn">
                                             <div><MdDeleteForever size={30} /></div>
                                         </button>
                                     </div>
@@ -234,8 +236,8 @@ export const GererCommandes = () => {
                         ))}
                     </table>
                     {/*           
-                    <div class="add">
-                        <button onClick={() => {handleShowAddForm()}} class="add-btn"><RiAddFill size={30} />Ajouter un produit</button>    
+                    <div className="add">
+                        <button onClick={() => {handleShowAddForm()}} className="add-btn"><RiAddFill size={30} />Ajouter un produit</button>    
                     </div>
                     */ }
                 </div>
@@ -409,23 +411,29 @@ export const GererCommandes = () => {
                             </Modal.Header>
 
                             <Modal.Body className='add-reservation-form'>
-                                <table>
-                                    <tr>
-                                        <th>Produit</th>
-                                        <th>Prix</th>
-                                        <th>Quantité</th>
-                                    </tr>
-
-                                    {ordersDetails && ordersDetails.map((order, index) => (
+                                {
+                                   
+                                    total.length == 0 ? <div>Aucun produit</div> : 
+                                    <>
+                                    <table>
                                         <tr>
-                                            <td key={index}>{order.title}</td>
-                                            <td key={index}>{order.price}</td>
-                                            <td key={index}>{order.quantity}</td>
+                                            <th>Produit</th>
+                                            <th>Prix</th>
+                                            <th>Quantité</th>
                                         </tr>
-                                    ))}  
-                                </table>
-                                
-                                <div className='total'>Total : {total[0].total} MAD</div>
+    
+                                        {ordersDetails && ordersDetails.map((order) => (
+                                            <tr>
+                                                <td >{order.title}</td>
+                                                <td >{order.price}</td>
+                                                <td >{order.quantity}</td>
+                                            </tr>
+                                        ))}  
+                                    </table>
+                                    
+                                    <div className='total'>Total : {total[0].total} MAD</div>
+                                    </>
+                                }
                                 
                             </Modal.Body>
 

@@ -108,73 +108,73 @@ export default class AdminDashboard extends Component {
         return (
             <>        
             <section className='admin-center'>
-                <div class="admin-title">Tableau de bord</div>
+                <div className="admin-title">Tableau de bord</div>
     
                 <div className='admin-clients'>                    
-                    <div class="total-clients">
-                        <div class="icon"><BsFillPersonFill size={30} /></div>
+                    <div className="total-clients">
+                        <div className="icon"><BsFillPersonFill size={30} /></div>
         
                         <div>
                             {numberOfClients && numberOfClients.map((number, index) => (
-                                <div key={index} class="a-number">{number.count}</div>
+                                <div key={index} className="a-number">{number.count}</div>
                             ))}
-                                <div class="stat">Clients</div>
+                                <div className="stat">Clients</div>
                         </div>
                     </div>
 
-                        <div class="total-clients">
-                            <div class="icon"><MdOutlineFastfood size={30} /></div>
+                        <div className="total-clients">
+                            <div className="icon"><MdOutlineFastfood size={30} /></div>
         
                             <div>
                                 {numberOfProducts && numberOfProducts.map((number, index) => (
-                                    <div key={index} class="a-number">{number.count}</div>
+                                    <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div class="stat">Produits</div>
+                                <div className="stat">Produits</div>
                             </div>
                         </div>
 
-                        <div class="total-clients">
-                            <div class="icon"><BsFillBookmarksFill size={30} /></div>
+                        <div className="total-clients">
+                            <div className="icon"><BsFillBookmarksFill size={30} /></div>
         
                             <div>
                                 {numberOfCategories && numberOfCategories.map((number, index) => (
-                                    <div key={index} class="a-number">{number.count}</div>
+                                    <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div class="stat">Catégories</div>
+                                <div className="stat">Catégories</div>
                             </div>
                         </div>
 
-                        <div class="total-clients">
-                            <div class="icon"><BiTask size={30} /></div>
+                        <div className="total-clients">
+                            <div className="icon"><BiTask size={30} /></div>
         
                             <div>
                                 {numberOfOrders && numberOfOrders.map((number, index) => (
-                                    <div key={index} class="a-number">{number.count}</div>
+                                    <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div class="stat">Commandes totales</div>
+                                <div className="stat">Commandes totales</div>
                             </div>
                         </div>
                         
                         {/*
-                        <div class="total-clients">
-                            <div class="icon"><BsXCircle size={30} /></div>
+                        <div className="total-clients">
+                            <div className="icon"><BsXCircle size={30} /></div>
         
                             <div>
                                 {numberOfNotDeliveredOrders && numberOfNotDeliveredOrders.map((number, index) => (
-                                    <div key={index} class="a-number">{number.count}</div>
+                                    <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div class="stat">Commandes non livrées</div>
+                                <div className="stat">Commandes non livrées</div>
                             </div>
                         </div>
                         
-                        <div class="total-clients">
-                            <div class="icon"><BsCheckCircle size={30} /></div>
+                        <div className="total-clients">
+                            <div className="icon"><BsCheckCircle size={30} /></div>
         
                             <div>
                                 {numberOfDeliveredOrders && numberOfDeliveredOrders.map((number, index) => (
-                                    <div key={index} class="a-number">{number.count}</div>
+                                    <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div class="stat">Commandes livrées</div>
+                                <div className="stat">Commandes livrées</div>
                             </div>
                         </div>
                         */}

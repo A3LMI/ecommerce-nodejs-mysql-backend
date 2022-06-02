@@ -10,17 +10,37 @@ const Client = function(client) {
 };
 
 // get all clients
-Client.logIn = (email, password, result) => {
-  let query = "SELECT * FROM client WHERE email='"+ email +"' AND password='"+ password +"'";
+Client.logIn = (email, password, old_session, result) => {
+  let query1 = `
+  SELECT * FROM client WHERE email='`+ email +`' AND password='`+ password +`';`;
 
-  sql.query(query, (err, res) => {
+  sql.query(query1, (err, res) => {
+    console.log("searching ! : " + email + " : " + password)
+
     if (err) {
       console.log("Error: ", err);
       result(null, err);
       return;
     }
-    
-    result(null, res);
+
+    if (res.length>0) {
+      result(null, res);
+
+      let query2 = `UPDATE sessions SET session_id='`+ old_session+"||"+res[0].id +`' WHERE session_id='`+ old_session + `';`;
+      sql.query(query2, (err, res) => {
+        if (err) {
+          console.log("Error: ", err);
+          result(null, err);
+          return;
+        }
+      });
+      
+    }
+    else if (res.length==0) {
+      console.log("not found !")
+      result(null, res);
+    }
+
   });
 };
 

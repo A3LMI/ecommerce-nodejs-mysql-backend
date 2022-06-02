@@ -30,7 +30,7 @@ module.exports = app => {
     
     /***** CLIENT *****/
     // Log In
-    router.post("/login/", client.logIn);
+    router.put("/login/", client.logIn);
     
     // Get all clients
     router.get("/client", client.getAll);

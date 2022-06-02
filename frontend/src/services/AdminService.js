@@ -2,6 +2,11 @@ import http from "../config/http-common";
 
 class AdminService {
 
+    // Session
+    updateSession(id, session) {
+        return http.put(`http://localhost:8080/session/${id}`, session);
+    }
+
     // Client
     getAllClients() {
         return http.get("http://localhost:8080/client");

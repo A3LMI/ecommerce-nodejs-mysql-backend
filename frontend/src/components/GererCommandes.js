@@ -15,8 +15,17 @@ export const GererCommandes = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    var t = new Date();
+
+    var yyyy = t.getFullYear();
+    var mm = String(t.getMonth() + 1).padStart(2, '0');
+    var dd = String(t.getDate()).padStart(2, '0');
+
+    const today = yyyy + '-' + mm + '-' + dd;
+
     useEffect(() => {    
-        getAllOrders();
+        getOrderByDate(String(today));
+        _new();
     }, [])
 
     let _orders = [{
@@ -25,12 +34,57 @@ export const GererCommandes = () => {
 
     let [orders, setAllOrders] = useState(_orders);
 
+    let _orderDate = "";
+
+    let [orderDate, setOrderDate] = useState(_orderDate);
+
     let _ordersDetails = [{
 
     }];
 
     let [ordersDetails, setAllOrdersDetails] = useState(_ordersDetails);
 
+    const getOrderByDate = (date) => {
+        AdminService.getOrderByDate(date)
+        .then(response => {
+            setAllOrders(response.data);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    const getByDateViewed = (date) => {
+        AdminService.getByDateViewed(date)
+        .then(response => {
+            setAllOrders(response.data);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    const getByDateNotViewed = (date) => {
+        AdminService.getByDateNotViewed(date)
+        .then(response => {
+            setAllOrders(response.data);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    const getDelivered = (date) => {
+        AdminService.getDelivered(date)
+        .then(response => {
+            setAllOrders(response.data);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    /*
     const getAllOrders = () => {
         AdminService.getAllOrders()
         .then(response => {
@@ -40,6 +94,7 @@ export const GererCommandes = () => {
             console.log(e);
         });
     }
+    */
 
     // setInterval(() => {getAllOrders();}, 5000);
 
@@ -124,7 +179,7 @@ export const GererCommandes = () => {
         AdminService.addProduct(order)
             .then(response => {
                 setShowAddForm(false);
-                getAllOrders();
+                // getAllOrders(); // to change
             })
             .catch(e => {
                 console.log(e);
@@ -146,11 +201,17 @@ export const GererCommandes = () => {
         AdminService.updateProduct(selectedToUpdate.id, order)
             .then(response => {
                 setShowUpdateForm(false);
-                getAllOrders();
+                // getAllOrders(); // to change
             })
             .catch(e => {
                 console.log(e);
         });
+    }
+
+    const handleChangeOrderDate = () => {
+        let date = document.getElementById("input-date").value;
+        setOrderDate(date);
+        getOrderByDate(date);
     }
 
     const selectToDelete = (order) => {
@@ -169,17 +230,74 @@ export const GererCommandes = () => {
         AdminService.deleteProduct(selectedToDelete.id)
         .then(response => {
             setShowDeleteForm(false)
-            getAllOrders();
+            getOrderByDate(today);
         })
         .catch(e => {
             console.log(e);
         });
     }
 
+    const setViewed = (id) => {
+        AdminService.setViewed(id)
+        .then(response => {
+            getOrderByDate(today);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    const _new = () => {
+        var i = 0;
+        var txt = "NEW"
+        var speed = 50;
+
+        function typeWriter() {
+            if (i < txt.length) {
+                document.getElementById("new").innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+    }
+
         return (
             <>
             <section className="gerer-clients">
-                <div className="admin-title">Gérer les commandes</div>
+                <div className="gerer-comm admin-title">
+                    <div>Gérer les commandes<span className='puce'>•</span></div>
+                    <div><input id='input-date' onChange={() => {handleChangeOrderDate()}} type={"date"}/></div>
+                    <div className='input-radio'>
+                        <input onChange={() => {
+                            if (orderDate == "") {
+                                getDelivered(String(today))
+                            } else {
+                                getDelivered(String(orderDate))
+                            }
+                            }} name={"radio"} type={"radio"} value={""}/>
+                        <div>Livrées</div>
+                    </div>
+                    <div className='input-radio'>
+                        <input onChange={() => {
+                            if (orderDate == "") {
+                                getOrderByDate(String(today))
+                            } else {
+                                getOrderByDate(String(orderDate))
+                            }
+                            }} name={"radio"} type={"radio"} value={""}/>
+                        <div>Toutes</div>
+                    </div>
+                    <div className='input-radio'>
+                        <input onChange={() => {
+                            if (orderDate == "") {
+                                getByDateNotViewed(String(today));
+                            } else {
+                                getByDateNotViewed(String(orderDate));
+                            }
+                            }} name={"radio"} type={"radio"} value={""}/>
+                        <div>Nouvelles</div>
+                    </div>
+                </div>
                 
                 <div className="table-and-btn-course">
                     <table>
@@ -193,6 +311,7 @@ export const GererCommandes = () => {
                             <th>Adresse de livraison</th>
                             <th>Numéro de téléphone</th>
                             <th>Date de livraison</th>
+                            <th>Total</th>
                             <th>Détails</th>
                             <th>Supprimer</th>
                         </tr>
@@ -200,15 +319,16 @@ export const GererCommandes = () => {
                         {orders && orders.map((order) => (
                         <>
                             <tr>
-                                <td >{order.id}</td>
+                                <td> <div className='new-td'>{order.id}<div className='new'>{order.viewed == 0 ? <div className='new-animation'>NEW</div> : true}</div></div></td>
                                 <td >Le {String(order.created_at).slice(0,10)}, à {String(order.created_at).slice(11,16)}</td>
                                 <td >{order.first_name} {order.last_name}</td>
                                 <td >{order.address}</td>
                                 <td >{order.phone_number}</td>
                                 <td >Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
+                                <td >{order.total} MAD</td>
                                 <td className="update">
                                     <div>
-                                        <button onClick={() => {handleShowOrderDetails(); getTotalByOrderID(order.id); setSelectedOrder(order); getAllOrdersDetails(order.id);}} className="update-btn">
+                                        <button onClick={() => {handleShowOrderDetails(); setViewed(order.id); getTotalByOrderID(order.id); setSelectedOrder(order); getAllOrdersDetails(order.id);}} className="update-btn">
                                             <div><AiFillEye size={26} /></div>
                                         </button>
                                     </div>

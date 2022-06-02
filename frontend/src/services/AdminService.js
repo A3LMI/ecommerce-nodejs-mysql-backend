@@ -95,6 +95,22 @@ class AdminService {
         return http.get("http://localhost:8080/order");
     }
 
+    getOrderByDate(date) {
+        return http.get(`http://localhost:8080/order/date/${date}`);
+    }
+
+    getByDateViewed(date) {
+        return http.get(`http://localhost:8080/order/date/${date}/viewed`);
+    }
+
+    getByDateNotViewed(date) {
+        return http.get(`http://localhost:8080/order/date/${date}/notViewed`);
+    }
+
+    getDelivered(date) {
+        return http.get(`http://localhost:8080/order/date/${date}/delivered`);
+    }
+
     getOrderByID(id) {
         return http.get(`http://localhost:8080/order/id/${id}`);
     }
@@ -117,6 +133,10 @@ class AdminService {
     
     updateOrder(id, order) {
         return http.put(`http://localhost:8080/order/${id}`, order);
+    }
+
+    setViewed(id) {
+        return http.put(`http://localhost:8080/order/${id}/viewed`);
     }
 
     deleteOrder(id) {

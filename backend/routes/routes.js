@@ -98,6 +98,18 @@ module.exports = app => {
     // Get all orders
     router.get("/order", order.getAll);
 
+    // Get by date
+    router.get("/order/date/:date", order.getByDate);
+
+    // Get by date viewed
+    router.get("/order/date/:date/viewed", order.getByDateViewed);
+
+    // Get by date not viewed
+    router.get("/order/date/:date/notViewed", order.getByDateNotViewed);
+    
+    // Get by date delivered
+    router.get("/order/date/:date/delivered", order.getDelivered);
+
     // Get order by ID
     router.get("/order/id/:id", order.getByID);
 
@@ -118,6 +130,9 @@ module.exports = app => {
 
     // Update order by ID
     router.put("/order/:id", order.update);
+
+    // Update order by ID
+    router.put("/order/:id/viewed", order.setViewed);
     
     // Delete order by ID
     router.delete("/order/:id", order.delete);

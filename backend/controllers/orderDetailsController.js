@@ -74,11 +74,9 @@ exports.create = (req, res) => {
   }
 
   const orderDetails = new OrderDetails ({
-    client_id: req.body.client_id,
-    address: req.body.address,
-    phone_number: req.body.phone_number,
-    delivery_date: req.body.delivery_date,
-    delivered: false
+    order_id: req.body.order_id,
+    product_id: req.body.product_id,
+    quantity: req.body.quantity
   });
 
   OrderDetails.create(orderDetails, (err, data) => {

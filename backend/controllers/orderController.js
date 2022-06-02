@@ -11,6 +11,50 @@ exports.getAll = (req, res) => {
   });
 };
 
+exports.getByDate = (req, res) => {
+  Order.getByDate(req.params.date, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
+exports.getDelivered = (req, res) => {
+  Order.getDelivered(req.params.date, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
+exports.getByDateNotViewed = (req, res) => {
+  Order.getByDateNotViewed(req.params.date, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
+exports.getByDateViewed = (req, res) => {
+  Order.getByDateViewed(req.params.date, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.getByID = (req, res) => {
   Order.getByID(req.params.id, (err, data) => {
     if (err)
@@ -78,7 +122,9 @@ exports.create = (req, res) => {
     address: req.body.address,
     phone_number: req.body.phone_number,
     delivery_date: req.body.delivery_date,
-    delivered: false
+    delivered: false,
+    viewed: false,
+    message: req.body.message
   });
 
   Order.create(order, (err, data) => {
@@ -89,6 +135,29 @@ exports.create = (req, res) => {
       });
     else res.send(data);
   });
+};
+
+exports.setViewed = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Cannot be empty !"
+    });
+  }
+
+  Order.setViewed(req.params.id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Order with ID: ${req.params.id} not found.`
+          });
+        } else {
+          res.status(500).send({
+            message: `Error updating Order with ID: ${req.params.id}`
+          });
+        }
+      } else res.send(data);
+    }
+  );
 };
 
 exports.update = (req, res) => {

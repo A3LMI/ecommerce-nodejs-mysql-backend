@@ -3,7 +3,6 @@ const sql = require("../config/db.js");
 const OrderDetails = function(orderDetails) {
   this.order_id = orderDetails.order_id;
   this.product_id = orderDetails.product_id;
-  this.price = orderDetails.price;
   this.quantity = orderDetails.quantity;
 };
 

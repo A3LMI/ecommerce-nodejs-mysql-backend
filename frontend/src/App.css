@@ -171,6 +171,46 @@
   margin-bottom: 20px;
 }
 
+.gerer-comm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.gerer-comm > div:nth-child(2),
+.gerer-comm > div:nth-child(3),
+.gerer-comm > div:nth-child(4) {
+  margin-right: 20px;
+}
+
+.input-radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.gerer-comm input[type=radio] {
+  margin-right: 7px;
+}
+
+.input-radio > div {
+  font-size: 27px;
+}
+
+.puce {
+  border-radius: 50px;
+  margin-right: 13px;
+  margin-left: 13px;
+}
+
+.gerer-comm input[type=date] {
+  border: 1px solid gray;
+  padding: 5px 20px;
+  width: 215px;
+  border-radius: 10px;
+  font-size: 30px;
+}
+
 .gerer-clients {
   display: flex;
   flex-direction: column;
@@ -330,6 +370,34 @@ table th {
   font-size: 30px !important;
   margin-top: 7px;
 }
+
+.new-td {
+  display: flex;
+  flex-direction: row;
+}
+
+.new {
+  position: relative;
+  right: 57px;
+  font-size: 20px;
+  color: rgb(61, 189, 61);
+  top: -2px;
+}
+
+.new-animation {
+  overflow: hidden;
+  animation: typewriter 3s 1s infinite;  
+}
+
+@keyframes typewriter {
+  0%{width: 0;}
+  100%{width: 30px;}
+}
+
+@keyframes cursor {
+  
+}
+
 
 /***/
 

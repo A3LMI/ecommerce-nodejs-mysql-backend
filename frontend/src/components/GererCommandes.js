@@ -24,7 +24,11 @@ export const GererCommandes = () => {
     const today = yyyy + '-' + mm + '-' + dd;
 
     useEffect(() => {    
-        getOrderByDate(String(today));
+        if (orderDate == "") {
+            getOrderByDate(today);
+        } else {
+            getOrderByDate(orderDate);
+        }
         _new();
     }, [])
 
@@ -240,11 +244,15 @@ export const GererCommandes = () => {
     const setViewed = (id) => {
         AdminService.setViewed(id)
         .then(response => {
-            getOrderByDate(today);
+            if (orderDate == "") {
+                getOrderByDate(today);
+            } else {
+                getOrderByDate(orderDate);
+            }
         })
         .catch(e => {
             console.log(e);
-        });
+        });       
     }
 
     const _new = () => {
@@ -258,6 +266,14 @@ export const GererCommandes = () => {
                 i++;
                 setTimeout(typeWriter, speed);
             }
+        }
+    }
+
+    const checkbox = () => {
+        let check = document.getElementById('checkbox');
+
+        if (check.checked == true) {
+            
         }
     }
 
@@ -311,6 +327,7 @@ export const GererCommandes = () => {
                             <th>Adresse de livraison</th>
                             <th>Numéro de téléphone</th>
                             <th>Date de livraison</th>
+                            <th>Quantité</th>
                             <th>Total</th>
                             <th>Détails</th>
                             <th>Supprimer</th>
@@ -325,7 +342,8 @@ export const GererCommandes = () => {
                                 <td >{order.address}</td>
                                 <td >{order.phone_number}</td>
                                 <td >Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
-                                <td >{order.total} MAD</td>
+                                <td className='td-center'>{order.quantity}</td>
+                                <td className='td-center'>{order.total} MAD</td>
                                 <td className="update">
                                     <div>
                                         <button onClick={() => {handleShowOrderDetails(); setViewed(order.id); getTotalByOrderID(order.id); setSelectedOrder(order); getAllOrdersDetails(order.id);}} className="update-btn">
@@ -537,6 +555,7 @@ export const GererCommandes = () => {
                                     <>
                                     <table>
                                         <tr>
+                                            <th className='empty-th'></th>
                                             <th>Produit</th>
                                             <th>Prix</th>
                                             <th>Quantité</th>
@@ -544,9 +563,10 @@ export const GererCommandes = () => {
     
                                         {ordersDetails && ordersDetails.map((order) => (
                                             <tr>
-                                                <td >{order.title}</td>
-                                                <td >{order.price}</td>
-                                                <td >{order.quantity}</td>
+                                                <td className='td-checkbox'><input id='checkbox' value={""} type={"checkbox"}/></td>
+                                                <td>{order.title}</td>
+                                                <td className='td-center'>{order.price}</td>
+                                                <td className='td-center'>{order.quantity}</td>
                                             </tr>
                                         ))}  
                                     </table>

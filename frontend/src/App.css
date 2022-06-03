@@ -177,10 +177,22 @@
   align-items: center;
 }
 
+.td-center {
+  text-align: center;
+}
+
 .gerer-comm > div:nth-child(2),
 .gerer-comm > div:nth-child(3),
 .gerer-comm > div:nth-child(4) {
   margin-right: 20px;
+}
+
+.empty-th {
+  border: none;
+}
+
+.td-checkbox {
+  align-items: center;
 }
 
 .input-radio {

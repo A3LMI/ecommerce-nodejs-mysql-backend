@@ -28,7 +28,7 @@ Order.getAll = (result) => {
 
 // get orders by date
 Order.getByDate = (date, result) => {
-  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total FROM `ecommerce`.order, `ecommerce`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND delivery_date LIKE '"+ date +"%' GROUP BY `order`.id";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -43,7 +43,7 @@ Order.getByDate = (date, result) => {
 
 // get orders delivered
 Order.getDelivered = (date, result) => {
-  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total FROM `ecommerce`.order, `ecommerce`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND delivery_date LIKE '"+ date +"%' AND delivered=1 GROUP BY `order`.id";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND delivered=1 GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -58,7 +58,7 @@ Order.getDelivered = (date, result) => {
 
 // get orders by date not viewed
 Order.getByDateNotViewed = (date, result) => {
-  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total FROM `ecommerce`.order, `ecommerce`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND delivery_date LIKE '"+ date +"%' AND viewed=0  GROUP BY `order`.id";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND viewed=0 GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -73,7 +73,7 @@ Order.getByDateNotViewed = (date, result) => {
 
 // get orders by date viewed
 Order.getByDateViewed = (date, result) => {
-  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total FROM `ecommerce`.order, `ecommerce`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND delivery_date LIKE '"+ date +"%' AND viewed=1  GROUP BY `order`.id";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND viewed=1 GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {

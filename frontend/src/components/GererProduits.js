@@ -76,7 +76,6 @@ export const GererProduits = () => {
     };
 
     const getAllCategories = () => {
-
         AdminService.getAllCategories()
             .then(response => {
                 setAllCategories(response.data);
@@ -153,7 +152,19 @@ export const GererProduits = () => {
         return (
             <>
             <section className="gerer-clients">
-                <div class="admin-title">Gérer les produits</div>
+                <div className="gerer-comm admin-title">
+                    <div>Gérer les produits<span className='puce'>•</span></div>
+                    <div>
+                        
+                        <select>
+                            <option value={""} disabled>Category</option>
+                            {categories.map((category) => {
+                                <option value={category.id}>{category.title}</option>
+                            })}
+                        </select>
+                        
+                    </div>
+                </div>
                 
                 <div class="table-and-btn-course">
                     <table>
@@ -173,12 +184,12 @@ export const GererProduits = () => {
                         <>
                             <tr>
                                 <td key={index}>{product.id}</td>
-                                <td key={index}>{product.title}</td>
-                                <td key={index}>{product.description}</td>
-                                <td key={index}>{product.price}</td>
-                                <td key={index}>{product.category_title}</td>
-                                <td key={index}>{product.rating}</td>
-                                <td key={index}>{product.image}</td>
+                                <td >{product.title}</td>
+                                <td >{product.description}</td>
+                                <td >{product.price}</td>
+                                <td >{product.category_title}</td>
+                                <td >{product.rating}</td>
+                                <td >{product.image}</td>
                                 <td class="update">
                                         <div>
                                             <button onClick={() => {handleShowUpdateForm(); getAllCategories(); setSelectedToUpdate(product)}} class="update-btn">
@@ -315,9 +326,9 @@ export const GererProduits = () => {
                                         <div className='field'>
                                             <select className='client-genre-add select-genre' {...register("category")}>
                                                 <option value={""} disabled>Category</option>
-                                                {categories.map((category, index) => {
+                                                {categories.map((category) => {
                                                     console.log("category : " + category.id + " " + category.title);
-                                                    <option value={category.id}>{category.title}</option>
+                                                    <option value={""}>{category.title}</option>
                                                 })}   
                                             </select>
                                             <span></span>

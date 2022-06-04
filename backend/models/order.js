@@ -43,7 +43,7 @@ Order.getByDate = (date, result) => {
 
 // get orders delivered
 Order.getDelivered = (date, result) => {
-  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND delivered=1 GROUP BY `order`.`id`";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND `order`.delivered=1 GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -163,7 +163,7 @@ Order.countNotDelivered = (result) => {
 };
 
 // create order
-Order.create = (newOrder, result) => {
+Order.create = (newOrder, order_items, result) => {
   sql.query("INSERT INTO ecommerce.order SET ?", newOrder, (err, res) => {
     if (err) {
       console.log("Error: ", err);
@@ -172,7 +172,39 @@ Order.create = (newOrder, result) => {
     }
 
     console.log("Order created succesfully !", { ...newOrder });
-    result(null, { ...newOrder });
+    
+    /*
+    for (i=0; i<order_items.length; i++) {
+      let query1 = "INSERT INTO `order_details`(`order_id`, `product_id`, `quantity`, `delivered`) VALUES ("+ newOrder.id +", "+ order_items[i].product_id +", "+ order_items[i].quantity +", 1)"
+
+      sql.query(query1, (err, res) => {
+        if (err) {
+          console.log("Error: ", err);
+          result(err, null);
+          return;
+        }
+    
+        console.log("Order items created succesfully !");
+      });
+    }
+    */
+    
+    order_items.forEach(element => {
+      let query1 = "INSERT INTO `order_details`(`order_id`, `product_id`, `quantity`, `delivered`) VALUES ("+ newOrder.id +", "+ element.product_id +", "+ element.quantity +", 1)"
+
+      sql.query(query1, (err, res) => {
+        if (err) {
+          console.log("Error: ", err);
+          result(err, null);
+          return;
+        }
+    
+        console.log("Order items created succesfully !");
+      });
+    });
+    
+
+    result(null, res);
   });
 };
 

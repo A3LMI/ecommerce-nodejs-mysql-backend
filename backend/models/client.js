@@ -9,7 +9,7 @@ const Client = function(client) {
   this.phone_number = client.phone_number;
 };
 
-// get all clients
+// login
 Client.logIn = (email, password, old_session, result) => {
   let query1 = `
   SELECT * FROM client WHERE email='`+ email +`' AND password='`+ password +`';`;
@@ -26,13 +26,28 @@ Client.logIn = (email, password, old_session, result) => {
     if (res.length>0) {
       result(null, res);
 
-      let query2 = `UPDATE sessions SET session_id='`+ old_session+"||"+res[0].id +`' WHERE session_id='`+ old_session + `';`;
+      let new_session = old_session+"||"+res[0].id;
+
+      let query2 = `
+      UPDATE sessions SET session_id='`+ new_session +`' WHERE session_id='`+ old_session + `';
+      `;
       sql.query(query2, (err, res) => {
         if (err) {
           console.log("Error: ", err);
           result(null, err);
           return;
         }
+
+        let query3 = `
+        UPDATE cart SET cart.session_id='`+ new_session +`' WHERE cart.session_id='`+ old_session + `';
+        `;
+        sql.query(query3, (err, res) => {
+          if (err) {
+            console.log("Error: ", err);
+            result(null, err);
+            return;
+          }
+        });
       });
       
     }
@@ -67,6 +82,21 @@ Client.getAll = (result) => {
 // get client by ID
 Client.getByID = (id, result) => {
   let query = "SELECT * FROM client WHERE id=" + id;
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
+};
+
+// get client by ID and password
+Client.getByIDAndPassword = (id, password, result) => {
+  let query = "SELECT * FROM client WHERE id='"+ id +"' AND password='"+ password +"';";
 
   sql.query(query, (err, res) => {
     if (err) {

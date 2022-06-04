@@ -127,7 +127,12 @@ exports.create = (req, res) => {
     message: req.body.message
   });
 
-  Order.create(order, (err, data) => {
+  const order_items = [{
+    product_id: req.body.cart_items.product_id,
+    quantity: req.body.cart_items.quantity
+  }];
+
+  Order.create(order, order_items, (err, data) => {
     if (err)
       res.status(500).send({
         message:

@@ -24,6 +24,17 @@ exports.getAll = (req, res) => {
   });
 };
 
+exports.getByIDAndPassword = (req, res) => {
+  Client.getByIDAndPassword(req.params.id, req.params.password, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.getByID = (req, res) => {
   Client.getByID(req.params.id, (err, data) => {
     if (err)

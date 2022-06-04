@@ -1,4 +1,4 @@
-import { AiFillEye } from 'react-icons/ai';
+import { AiFillAlipaySquare, AiFillEye } from 'react-icons/ai';
 import { MdModeEdit, MdDeleteForever } from 'react-icons/md';
 
 import AdminService from "../services/AdminService";
@@ -30,6 +30,8 @@ export const GererCommandes = () => {
             getOrderByDate(orderDate);
         }
         _new();
+
+        document.getElementById("input-date").defaultValue = today;
     }, [])
 
     let _orders = [{
@@ -174,6 +176,10 @@ export const GererCommandes = () => {
         }
     };
 
+    const deliver = () => {
+
+    }
+
     const handleAddProduct = (data) => {
 
         let order = {
@@ -257,19 +263,25 @@ export const GererCommandes = () => {
 
     const _new = () => {
         var i = 0;
-        var txt = "NEW"
+        var new_ = "NEW";
+        var check = "✓";
         var speed = 50;
 
         function typeWriter() {
-            if (i < txt.length) {
-                document.getElementById("new").innerHTML += txt.charAt(i);
+            if (i < new_.length) {
+                document.getElementById("new").innerHTML += new_.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+            if (i < check.length) {
+                document.getElementById("check").innerHTML += check.charAt(i);
                 i++;
                 setTimeout(typeWriter, speed);
             }
         }
     }
 
-    const checkbox = () => {
+    const handleCheckbox = () => {
         let check = document.getElementById('checkbox');
 
         if (check.checked == true) {
@@ -290,7 +302,7 @@ export const GererCommandes = () => {
                             } else {
                                 getDelivered(String(orderDate))
                             }
-                            }} name={"radio"} type={"radio"} value={""}/>
+                            }} name={"radio"} type={"radio"}/>
                         <div>Livrées</div>
                     </div>
                     <div className='input-radio'>
@@ -563,7 +575,7 @@ export const GererCommandes = () => {
     
                                         {ordersDetails && ordersDetails.map((order) => (
                                             <tr>
-                                                <td className='td-checkbox'><input id='checkbox' value={""} type={"checkbox"}/></td>
+                                                <td className='td-checkbox'>Livrée : <input onChange={() => {return true}} id='checkbox' value={order.delivered} type={"checkbox"} checked/></td>
                                                 <td>{order.title}</td>
                                                 <td className='td-center'>{order.price}</td>
                                                 <td className='td-center'>{order.quantity}</td>
@@ -578,6 +590,14 @@ export const GererCommandes = () => {
                             </Modal.Body>
 
                             <Modal.Footer>
+                                {
+                                    selectedOrder.delivered == 0 ?
+                                    <Button onClick={deliver}>
+                                        <div className='modal-close-btn'>Livrée ?</div>
+                                    </Button>
+                                    : true
+                                }
+
                                 <Button variant="secondary" onClick={handleClose}>
                                     <div className='modal-close-btn'>Fermer</div>
                                 </Button>

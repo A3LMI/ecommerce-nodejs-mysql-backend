@@ -37,6 +37,9 @@ module.exports = app => {
 
     // Get client by ID
     router.get("/client/id/:id", client.getByID);
+
+    // Get client by ID and password
+    router.get("/client/:id/:password", client.getByIDAndPassword);    
     
     // Get number of clients
     router.get("/client/count", client.count);

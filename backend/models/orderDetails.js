@@ -122,6 +122,30 @@ OrderDetails.update = (id, orderDetails, result) => {
   );
 };
 
+// update orderDetails : set delivered
+OrderDetails.setDelivered = (id, orderDetails, result) => {
+  sql.query(
+    `UPDATE order_details
+     SET delivered=?
+     WHERE id=?`,
+    [orderDetails.delivered, id],
+    (err, res) => {
+      if (err) {
+        console.log("Error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("Order details with id " + id + " updated succesfully !", { id: id, ...orderDetails });
+      result(null, { id: id, ...orderDetails });
+    }
+  );
+};
+
 // delete orderDetails by id
 OrderDetails.delete = (id, result) => {
   sql.query("DELETE FROM order_details WHERE id=?", id, (err, res) => {

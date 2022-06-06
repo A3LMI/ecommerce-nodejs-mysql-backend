@@ -1,6 +1,8 @@
+const { query } = require("../config/db.js");
 const sql = require("../config/db.js");
 
 const Order = function(order) {
+  this.id = order.id;
   this.client_id = order.client_id;
   this.address = order.address;
   this.phone_number = order.phone_number;
@@ -163,7 +165,7 @@ Order.countNotDelivered = (result) => {
 };
 
 // create order
-Order.create = (newOrder, order_items, result) => {
+Order.create = (cart_id, newOrder, result) => {
   sql.query("INSERT INTO ecommerce.order SET ?", newOrder, (err, res) => {
     if (err) {
       console.log("Error: ", err);
@@ -172,22 +174,55 @@ Order.create = (newOrder, order_items, result) => {
     }
 
     console.log("Order created succesfully !", { ...newOrder });
-    
-    /*
-    for (i=0; i<order_items.length; i++) {
-      let query1 = "INSERT INTO `order_details`(`order_id`, `product_id`, `quantity`, `delivered`) VALUES ("+ newOrder.id +", "+ order_items[i].product_id +", "+ order_items[i].quantity +", 1)"
 
-      sql.query(query1, (err, res) => {
+    let query = "SELECT * FROM `order` WHERE `client_id`="+ newOrder.client_id +" ORDER BY `created_at` DESC LIMIT 1";
+
+    sql.query(query, (err, res) => {
+
+      if (err) {
+        console.log("Error: ", err);
+        result(err, null);
+        return;
+      }
+
+      let order_id = res[0].id;
+
+      let query_ = "SELECT * FROM `cart_item` WHERE `cart_id`="+ cart_id +";";
+
+      sql.query(query_, (err, res) => {
+
         if (err) {
           console.log("Error: ", err);
           result(err, null);
           return;
         }
+  
+        result(null, res);
+
+        let i = 0;
+        do {
+          let query1 = "INSERT INTO `order_details`(`order_id`, `product_id`, `quantity`, `delivered`) VALUES ("+ order_id +", "+ res[i].product_id +", "+ res[i].quantity +", 1)"
     
-        console.log("Order items created succesfully !");
+          sql.query(query1, (err, res) => {
+            if (err) {
+              console.log("Error: ", err);
+              result(err, null);
+              return;
+            }
+        
+            console.log("Order items created succesfully !");
+          });
+          i++;
+        }
+        while (i<res.length)
+        
       });
+    });
+
+       /* 
+    for (i=0; i<order_items.length; i++) {
+
     }
-    */
     
     order_items.forEach(element => {
       let query1 = "INSERT INTO `order_details`(`order_id`, `product_id`, `quantity`, `delivered`) VALUES ("+ newOrder.id +", "+ element.product_id +", "+ element.quantity +", 1)"
@@ -202,9 +237,8 @@ Order.create = (newOrder, order_items, result) => {
         console.log("Order items created succesfully !");
       });
     });
+    */
     
-
-    result(null, res);
   });
 };
 
@@ -237,6 +271,30 @@ Order.setViewed = (id, result) => {
   sql.query(
     `UPDATE ecommerce.order
      SET viewed=true
+     WHERE id=?`,
+    [id],
+    (err, res) => {
+      if (err) {
+        console.log("Error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("Order with id " + id + " updated succesfully !", { id: id });
+      result(null);
+    }
+  );
+};
+
+// set delivered order
+Order.setOrderDelivered = (id, result) => {
+  sql.query(
+    `UPDATE ecommerce.order
+     SET delivered=true
      WHERE id=?`,
     [id],
     (err, res) => {

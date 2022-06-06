@@ -164,6 +164,14 @@ class AdminService {
         return http.put(`http://localhost:8080/order-details/${id}`, order);
     }
 
+    setDelivered(id, order) {
+        return http.put(`http://localhost:8080/order-details/${id}/delivered`, order);
+    }
+
+    setOrderDelivered(id) {
+        return http.put(`http://localhost:8080/order/${id}/delivered`);
+    }
+
     deleteOrderDetail(id) {
         return http.delete(`http://localhost:8080/order-details/${id}`);
     }

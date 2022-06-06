@@ -129,10 +129,13 @@ module.exports = app => {
     router.get("/order/countNotDelivered", order.countNotDelivered);
 
     // Create order
-    router.post("/order", order.create);
+    router.post("/order/cartID/:cart_id", order.create);
 
     // Update order by ID
     router.put("/order/:id", order.update);
+
+    // Update order by ID
+    router.put("/order/:id/delivered", order.setOrderDelivered);
 
     // Update order by ID
     router.put("/order/:id/viewed", order.setViewed);
@@ -155,6 +158,9 @@ module.exports = app => {
 
     // Update order detail
     router.put("/order-details/:id", orderDetails.update);
+
+    // Update order detail : set delivered
+    router.put("/order-details/:id/delivered", orderDetails.setDelivered);    
     
     // Delete order detail (delete product from order)
     router.delete("/order-details/:id", orderDetails.delete);

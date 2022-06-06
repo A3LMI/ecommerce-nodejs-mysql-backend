@@ -127,12 +127,9 @@ exports.create = (req, res) => {
     message: req.body.message
   });
 
-  const order_items = [{
-    product_id: req.body.cart_items.product_id,
-    quantity: req.body.cart_items.quantity
-  }];
+  const order_items = req.body.cart_items;
 
-  Order.create(order, order_items, (err, data) => {
+  Order.create(req.params.cart_id, order, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -173,6 +170,29 @@ exports.update = (req, res) => {
   }
 
   Order.update(req.params.id, new Order(req.body), (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Order with ID: ${req.params.id} not found.`
+          });
+        } else {
+          res.status(500).send({
+            message: `Error updating Order with ID: ${req.params.id}`
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
+exports.setOrderDelivered = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Cannot be empty !"
+    });
+  }
+
+  Order.setOrderDelivered(req.params.id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({

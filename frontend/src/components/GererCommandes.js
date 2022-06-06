@@ -1,9 +1,7 @@
-import { AiFillAlipaySquare, AiFillEye } from 'react-icons/ai';
-import { MdModeEdit, MdDeleteForever } from 'react-icons/md';
+import { AiFillEye } from 'react-icons/ai';
+import { MdDeleteForever } from 'react-icons/md';
 
 import AdminService from "../services/AdminService";
-
-import { v4 as uuidv4 } from 'uuid';
 
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
@@ -24,7 +22,7 @@ export const GererCommandes = () => {
     const today = yyyy + '-' + mm + '-' + dd;
 
     useEffect(() => {    
-        if (orderDate == "") {
+        if (orderDate === "") {
             getOrderByDate(today);
         } else {
             getOrderByDate(orderDate);
@@ -176,10 +174,6 @@ export const GererCommandes = () => {
         }
     };
 
-    const deliver = () => {
-
-    }
-
     const handleAddProduct = (data) => {
 
         let order = {
@@ -250,7 +244,7 @@ export const GererCommandes = () => {
     const setViewed = (id) => {
         AdminService.setViewed(id)
         .then(response => {
-            if (orderDate == "") {
+            if (orderDate === "") {
                 getOrderByDate(today);
             } else {
                 getOrderByDate(orderDate);
@@ -281,12 +275,57 @@ export const GererCommandes = () => {
         }
     }
 
-    const handleCheckbox = () => {
-        let check = document.getElementById('checkbox');
+    const deliver = () => {
+        let check = document.getElementById("checkbox")
 
-        if (check.checked == true) {
-            
+        let order = {
+            delivered: 1
         }
+
+        if (check.checked === true) {
+            order.delivered = 1;
+        }
+        else if (check.checked === false) {
+            order.delivered = 0;
+        }
+
+        /*
+        AdminService.setDelivered(selectedOrder.id, order)
+        .then(response => {
+            if (orderDate === "") {
+                getOrderByDate(today);
+            } else {
+                getOrderByDate(orderDate);
+            }
+        })
+        .catch(e => {
+            console.log(e);
+        });
+        */
+
+        AdminService.setOrderDelivered(selectedOrder.id)
+        .then(response => {
+            if (orderDate === "") {
+                getOrderByDate(today);
+            } else {
+                getOrderByDate(orderDate);
+            }
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
+
+    const handleCheckbox = () => {
+        let check = document.getElementById("checkbox");
+
+        if (selectedOrder.delivered === 1) {
+            check.disabled = true;
+        }
+        else if (selectedOrder.delivered === 0)  {
+            check.disabled = false;
+        }
+
     }
 
         return (
@@ -297,7 +336,7 @@ export const GererCommandes = () => {
                     <div><input id='input-date' onChange={() => {handleChangeOrderDate()}} type={"date"}/></div>
                     <div className='input-radio'>
                         <input onChange={() => {
-                            if (orderDate == "") {
+                            if (orderDate === "") {
                                 getDelivered(String(today))
                             } else {
                                 getDelivered(String(orderDate))
@@ -307,7 +346,7 @@ export const GererCommandes = () => {
                     </div>
                     <div className='input-radio'>
                         <input onChange={() => {
-                            if (orderDate == "") {
+                            if (orderDate === "") {
                                 getOrderByDate(String(today))
                             } else {
                                 getOrderByDate(String(orderDate))
@@ -317,7 +356,7 @@ export const GererCommandes = () => {
                     </div>
                     <div className='input-radio'>
                         <input onChange={() => {
-                            if (orderDate == "") {
+                            if (orderDate === "") {
                                 getByDateNotViewed(String(today));
                             } else {
                                 getByDateNotViewed(String(orderDate));
@@ -339,6 +378,7 @@ export const GererCommandes = () => {
                             <th>Adresse de livraison</th>
                             <th>Numéro de téléphone</th>
                             <th>Date de livraison</th>
+                            <th>Message</th>
                             <th>Quantité</th>
                             <th>Total</th>
                             <th>Détails</th>
@@ -348,12 +388,13 @@ export const GererCommandes = () => {
                         {orders && orders.map((order) => (
                         <>
                             <tr>
-                                <td> <div className='new-td'>{order.id}<div className='new'>{order.viewed == 0 ? <div className='new-animation'>NEW</div> : true}</div></div></td>
-                                <td >Le {String(order.created_at).slice(0,10)}, à {String(order.created_at).slice(11,16)}</td>
-                                <td >{order.first_name} {order.last_name}</td>
-                                <td >{order.address}</td>
-                                <td >{order.phone_number}</td>
-                                <td >Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
+                                <td> <div className='new-td'>{order.id}<div className='new'>{order.viewed === 0 ? <div className='new-animation'>NEW</div> : true}</div></div></td>
+                                <td>Le {String(order.created_at).slice(0,10)}, à {String(order.created_at).slice(11,16)}</td>
+                                <td>{order.first_name} {order.last_name}</td>
+                                <td>{order.address}</td>
+                                <td>{order.phone_number}</td>
+                                <td>Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
+                                <td>{order.message}</td>
                                 <td className='td-center'>{order.quantity}</td>
                                 <td className='td-center'>{order.total} MAD</td>
                                 <td className="update">
@@ -563,7 +604,7 @@ export const GererCommandes = () => {
                             <Modal.Body className='add-reservation-form'>
                                 {
                                    
-                                    total.length == 0 ? <div>Aucun produit</div> : 
+                                    total.length === 0 ? <div>Aucun produit</div> : 
                                     <>
                                     <table>
                                         <tr>
@@ -575,12 +616,17 @@ export const GererCommandes = () => {
     
                                         {ordersDetails && ordersDetails.map((order) => (
                                             <tr>
-                                                <td className='td-checkbox'>Livrée : <input onChange={() => {return true}} id='checkbox' value={order.delivered} type={"checkbox"} checked/></td>
+                                                <td className='td-checkbox'>Livrée : <input disabled={false} onLoad={handleCheckbox} onChange={() => {return true}} id='checkbox' value={order.delivered} type={"checkbox"}/></td>
                                                 <td>{order.title}</td>
                                                 <td className='td-center'>{order.price}</td>
                                                 <td className='td-center'>{order.quantity}</td>
                                             </tr>
-                                        ))}  
+                                        ))}
+
+                                        <tr>
+                                            <td colspan="3" className='td-checkbox'>Total</td>
+                                            <td colspan="1" className='td-center'>{total[0].total}</td>
+                                        </tr>
                                     </table>
                                     
                                     <div className='total'>Total : {total[0].total} MAD</div>
@@ -591,8 +637,8 @@ export const GererCommandes = () => {
 
                             <Modal.Footer>
                                 {
-                                    selectedOrder.delivered == 0 ?
-                                    <Button onClick={deliver}>
+                                    selectedOrder.delivered === 0 ?
+                                    <Button onClick={() => {deliver()}}>
                                         <div className='modal-close-btn'>Livrée ?</div>
                                     </Button>
                                     : true

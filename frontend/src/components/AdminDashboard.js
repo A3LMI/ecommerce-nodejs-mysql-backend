@@ -115,10 +115,11 @@ export default class AdminDashboard extends Component {
                         <div className="icon"><BsFillPersonFill size={30} /></div>
         
                         <div>
+                            <div className="stat">Clients</div>
+
                             {numberOfClients && numberOfClients.map((number, index) => (
                                 <div key={index} className="a-number">{number.count}</div>
                             ))}
-                                <div className="stat">Clients</div>
                         </div>
                     </div>
 
@@ -126,10 +127,11 @@ export default class AdminDashboard extends Component {
                             <div className="icon"><MdOutlineFastfood size={30} /></div>
         
                             <div>
+                                <div className="stat">Produits</div>
+
                                 {numberOfProducts && numberOfProducts.map((number, index) => (
                                     <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div className="stat">Produits</div>
                             </div>
                         </div>
 
@@ -137,10 +139,11 @@ export default class AdminDashboard extends Component {
                             <div className="icon"><BsFillBookmarksFill size={30} /></div>
         
                             <div>
+                                <div className="stat">Catégories</div>
+
                                 {numberOfCategories && numberOfCategories.map((number, index) => (
                                     <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div className="stat">Catégories</div>
                             </div>
                         </div>
 
@@ -148,10 +151,11 @@ export default class AdminDashboard extends Component {
                             <div className="icon"><BiTask size={30} /></div>
         
                             <div>
+                                <div className="stat">Commandes totales</div>
+                                
                                 {numberOfOrders && numberOfOrders.map((number, index) => (
                                     <div key={index} className="a-number">{number.count}</div>
                                 ))}
-                                <div className="stat">Commandes totales</div>
                             </div>
                         </div>
                         

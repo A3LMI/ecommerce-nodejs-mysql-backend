@@ -112,6 +112,28 @@ exports.update = (req, res) => {
   );
 };
 
+exports.setDelivered = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Cannot be empty !"
+    });
+  }
+
+  OrderDetails.setDelivered(req.params.id, new OrderDetails(req.body), (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `OrderDetails with ID: ${req.params.id} not found.`
+        });
+      } else {
+        res.status(500).send({
+          message: `Error updating OrderDetails with ID: ${req.params.id}`
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 exports.delete = (req, res) => {
   OrderDetails.delete(req.params.id, (err, data) => {
     if (err) {

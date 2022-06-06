@@ -106,14 +106,14 @@ exports.update = (req, res) => {
   );
 };
 
-exports.updateEmail = (req, res) => {
+exports.updatePassword = (req, res) => {
   if (!req.body) {
     res.status(400).send({
       message: "Cannot be empty !"
     });
   }
 
-  Client.updateEmail(req.params.id, req.params.email, (err, data) => {
+  Client.updatePassword(req.params.id, req.params.password, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({

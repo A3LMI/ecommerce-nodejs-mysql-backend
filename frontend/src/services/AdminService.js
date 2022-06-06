@@ -144,6 +144,10 @@ class AdminService {
     }
 
     // Order Details
+    getOrderDetailsByID(id) {
+        return http.get(`http://localhost:8080/order-details/id/${id}`);
+    }
+
     getOrderDetailsByOrderID(id) {
         return http.get(`http://localhost:8080/order-details/orderID/${id}`);
     }

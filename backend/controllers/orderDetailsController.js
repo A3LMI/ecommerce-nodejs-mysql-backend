@@ -11,6 +11,17 @@ exports.getAll = (req, res) => {
   });
 };
 
+exports.getByID = (req, res) => {
+  OrderDetails.getByID(req.params.id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.getByOrderID = (req, res) => {
   OrderDetails.getByOrderID(req.params.id, (err, data) => {
     if (err)

@@ -44,13 +44,16 @@ module.exports = app => {
     // Get number of clients
     router.get("/client/count", client.count);
 
-    // Create a client
+    // Create client
     router.post("/client", client.create);
 
-    // Update a client by ID
+    // Update client by ID
     router.put("/client/:id", client.update);
+
+    // Update client passsword by ID
+    router.put("/client/:id/password/:password", client.updatePassword);
     
-    // Delete a client by ID
+    // Delete client by ID
     router.delete("/client/:id", client.delete);
 
     /***** CATEGORY *****/
@@ -144,6 +147,9 @@ module.exports = app => {
     router.delete("/order/:id", order.delete);
 
     /***** ORDER DETAILS *****/
+    // Get order details by order
+    router.get("/order-details/id/:id", orderDetails.getByID);
+
     // Get order details by order
     router.get("/order-details/orderID/:id", orderDetails.getByOrderID);
 

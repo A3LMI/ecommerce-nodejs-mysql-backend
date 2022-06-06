@@ -316,16 +316,29 @@ export const GererCommandes = () => {
         });
     }
 
-    const handleCheckbox = () => {
-        let check = document.getElementById("checkbox");
+    
+    let _orderDetail = [{
 
-        if (selectedOrder.delivered === 1) {
-            check.disabled = true;
-        }
-        else if (selectedOrder.delivered === 0)  {
-            check.disabled = false;
-        }
+    }];
+    
+    let [orderDetail, setOrderDetail] = useState(_orderDetail);
 
+    const handleCheckbox = (id) => {
+
+        AdminService.getOrderDetailsByID(id)
+        .then(response => {
+            setOrderDetail(response.data);
+        })
+        .catch(e => {
+            console.log(e);
+        });
+
+        if (orderDetail.delivered == 1) {
+            document.getElementById('_checkbox').checked = true;
+        }
+        else if (orderDetail.delivered == 0)  {
+            document.getElementById('_checkbox').checked = false;
+        }
     }
 
         return (
@@ -384,7 +397,7 @@ export const GererCommandes = () => {
                             <th>Détails</th>
                             <th>Supprimer</th>
                         </tr>
-
+                        
                         {orders && orders.map((order) => (
                         <>
                             <tr>
@@ -615,21 +628,21 @@ export const GererCommandes = () => {
                                         </tr>
     
                                         {ordersDetails && ordersDetails.map((order) => (
-                                            <tr>
-                                                <td className='td-checkbox'>Livrée : <input disabled={false} onLoad={handleCheckbox} onChange={() => {return true}} id='checkbox' value={order.delivered} type={"checkbox"}/></td>
+                                            <tr  onLoad={() => {handleCheckbox(order.id)}}>
+                                                <td className='td-checkbox'>Livrée : <input id={'_checkbox'}  onChange={() => {return true}} value={order.delivered} type={"checkbox"}/></td>
                                                 <td>{order.title}</td>
-                                                <td className='td-center'>{order.price}</td>
-                                                <td className='td-center'>{order.quantity}</td>
+                                                <td className='td-center'>{order.price}.00 MAD</td>
+                                                <td className='td-center'>x{order.quantity}</td>
                                             </tr>
                                         ))}
 
                                         <tr>
                                             <td colspan="3" className='td-checkbox'>Total</td>
-                                            <td colspan="1" className='td-center'>{total[0].total}</td>
+                                            <td colspan="1" className='td-center'>{total[0].total}.00 MAD</td>
                                         </tr>
                                     </table>
                                     
-                                    <div className='total'>Total : {total[0].total} MAD</div>
+                                    <div className='total'>Total : {total[0].total}.00 MAD</div>
                                     </>
                                 }
                                 

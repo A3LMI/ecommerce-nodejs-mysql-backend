@@ -52,7 +52,7 @@ module.exports = app => {
 
     // Update client passsword by ID
     router.put("/client/:id/password/:password", client.updatePassword);
-    
+
     // Delete client by ID
     router.delete("/client/:id", client.delete);
 

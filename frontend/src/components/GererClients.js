@@ -41,9 +41,16 @@ export const GererClients = () => {
 
     let [selectedToDelete, setSelectedToDelete] = useState(_selectedToDelete);
 
-    let _selectedToUpdate = {
 
-    };
+    let _selectedToUpdate = {
+        first_name: "",
+        last_name: "",
+        email: "",
+        client_id: "",
+        password: "",
+        address: "",
+        phone_number: ""
+    }
     
     let [selectedToUpdate, setSelectedToUpdate] = useState(_selectedToUpdate);
 
@@ -61,7 +68,8 @@ export const GererClients = () => {
             setShowAddForm(false)
         }
         if (showUpdateForm === true) {
-            setShowUpdateForm(false)
+            setShowUpdateForm(false);   
+            setSelectedToUpdate(_selectedToUpdate);
         }
         if (showDeleteForm === true) {
             setShowDeleteForm(false)
@@ -130,6 +138,18 @@ export const GererClients = () => {
         });
     }
 
+    const loadValue = (id, value) => {
+        document.getElementById(id).setAttribute("value", value);
+    }
+
+
+
+    const onShowUpdate = (client) => {
+        handleShowUpdateForm();
+        setSelectedToUpdate(client);
+        console.log(selectedToUpdate);
+    }
+
         return (
             <>
             <section className="gerer-clients">
@@ -137,46 +157,50 @@ export const GererClients = () => {
                 
                 <div class="table-and-btn-course">
                     <table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Prénom</th>
-                            <th>Nom</th>
-                            <th>Adresse E-mail</th>
-                            <th>Mot de passe</th>
-                            <th>Adresse</th>
-                            <th>Numéro de téléphone</th>
-                            <th>Modifier</th>
-                            <th>Supprimer</th>
-                        </tr>
-
-                        {clients && clients.map((client, index) => (
-                        <>
+                        <thead>
                             <tr>
-                                <td key={index}>{client.id}</td>
-                                <td key={index}>{client.first_name}</td>
-                                <td key={index}>{client.last_name}</td>
-                                <td key={index}>{client.email}</td>
-                                <td key={index}>{client.password}</td>
-                                <td key={index}>{client.address}</td>
-                                <td key={index}>{client.phone_number}</td>
-                                <td class="update">
-                                        <div>
-                                            <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(client)}} class="update-btn">
-                                                <div><MdModeEdit size={30} /></div>
-                                            </button>
-                                        </div>
-                                    </td>
-
-                                    <td class="delete">
-                                        <div>
-                                            <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(client)}} class="delete-btn">
-                                                <div><MdDeleteForever size={30} /></div>
-                                            </button>
-                                        </div>
-                                    </td>
+                                <th>ID</th>
+                                <th>Prénom</th>
+                                <th>Nom</th>
+                                <th>Adresse E-mail</th>
+                                <th>Mot de passe</th>
+                                <th>Adresse</th>
+                                <th>Numéro de téléphone</th>
+                                <th>Modifier</th>
+                                <th>Supprimer</th>
                             </tr>
-                        </>
-                        ))}
+                        </thead>
+
+                        <tbody>
+                            {clients && clients.map((client) => (
+                            <>
+                                <tr>
+                                    <td>{client.id}</td>
+                                    <td>{client.first_name}</td>
+                                    <td>{client.last_name}</td>
+                                    <td>{client.email}</td>
+                                    <td>{client.password}</td>
+                                    <td>{client.address}</td>
+                                    <td>{client.phone_number}</td>
+                                    <td class="update">
+                                            <div>
+                                                <button onClick={() => {selectedToUpdate = client; console.log(selectedToUpdate); handleShowUpdateForm();}} class="update-btn">
+                                                    <div><MdModeEdit size={30} /></div>
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                        <td class="delete">
+                                            <div>
+                                                <button onClick={() => {handleShowDeleteForm(); setSelectedToDelete(client)}} class="delete-btn">
+                                                    <div><MdDeleteForever size={30} /></div>
+                                                </button>
+                                            </div>
+                                        </td>
+                                </tr>
+                            </>
+                            ))}
+                        </tbody>
                     </table>
                     {/*           
                     <div class="add">
@@ -262,21 +286,23 @@ export const GererClients = () => {
                                 <Modal.Title><div className='modal-t'>Modifier un client</div></Modal.Title>
                             </Modal.Header>
 
-                            <Modal.Body className='add-reservation-form'>
+                            <Modal.Body className='update-client add-reservation-form'>
                                 <form onSubmit={handleSubmit(handleUpdateClient)} className='addForm'>
-
                                     <div className='field-container'>
                                         <div className='field'>
                                             <input type={"text"}
+                                                id='first_name'
+                                                value={selectedToUpdate.first_name}
                                                 className='email'
                                                 placeholder='Prénom' {...register("first_name")}/>
                                             <span></span>
                                             <label className='email-label'>Prénom</label>
                                         </div>
-
+                                        
                                         <div className='field'>
                                             <input type={"text"}
                                                 className='email'
+                                                value={selectedToUpdate.last_name}
                                                 placeholder='Nom' {...register("last_name")} />
                                             <span></span>
                                             <label className='email-label'>Nom</label>
@@ -287,6 +313,7 @@ export const GererClients = () => {
                                         <div className='field'>
                                             <input type={"text"}
                                                 className='email'
+                                                value={selectedToUpdate.email}
                                                 placeholder='Adresse e-mail' {...register("email")} />
                                             <span></span>
                                             <label className='email-label'>Adresse e-mail</label>
@@ -295,6 +322,7 @@ export const GererClients = () => {
                                         <div className='field'>
                                             <input type={"text"}
                                                 className='email'
+                                                value={selectedToUpdate.password}
                                                 placeholder='Mot de passe' {...register("password")} />
                                             <span></span>
                                             <label className='email-label'>Mot de passe</label>
@@ -305,6 +333,7 @@ export const GererClients = () => {
                                         <div className='field'>
                                             <input type={"text"}
                                                 className='email'
+                                                value={selectedToUpdate.address}
                                                 placeholder='Adresse' {...register("address")} />
                                             <span></span>
                                             <label className='email-label'>Adresse</label>
@@ -313,6 +342,7 @@ export const GererClients = () => {
                                         <div className='field'>
                                             <input type={"text"}
                                                 className='email'
+                                                value={selectedToUpdate.phone_number}
                                                 placeholder='Numéro de téléphone' {...register("phone_number")} />
                                             <span></span>
                                             <label className='email-label'>Numéro de téléphone</label>
@@ -340,7 +370,7 @@ export const GererClients = () => {
                             </Modal.Header>
 
                             <Modal.Body>
-                                <div className='etes-vous-surs'>Êtes-vous sûrs de vouloir supprimer ce produit?</div>
+                                <div className='etes-vous-surs'>Êtes-vous sûrs de vouloir supprimer ce client?</div>
                                 <div className='delete-r-btn' onClick={() =>{ deleteClient()}}>Supprimer</div>
                             </Modal.Body>
 

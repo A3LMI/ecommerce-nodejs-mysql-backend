@@ -276,7 +276,7 @@ export const GererCommandes = () => {
     }
 
     const deliver = () => {
-        let check = document.getElementById("checkbox")
+        let check = document.getElementById("_checkbox")
 
         let order = {
             delivered: 1
@@ -288,6 +288,8 @@ export const GererCommandes = () => {
         else if (check.checked === false) {
             order.delivered = 0;
         }
+
+        setShowOrderDetails(false);
 
         /*
         AdminService.setDelivered(selectedOrder.id, order)
@@ -314,6 +316,9 @@ export const GererCommandes = () => {
         .catch(e => {
             console.log(e);
         });
+
+        
+        setShowOrderDetails(false);
     }
 
     

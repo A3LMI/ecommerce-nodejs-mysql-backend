@@ -340,17 +340,17 @@ export const GererProduits = () => {
                                         <div className='field'>
                                             <input type={"text"}
                                                 className='email'
-                                                placeholder='Image' {...register("image")} />
+                                                placeholder='Note' {...register("rating")} />
                                             <span></span>
-                                            <label className='email-label'>Image</label>
+                                            <label className='email-label'>Note</label>
                                         </div>
 
                                         <div className='field'>
                                             <input type={"text"}
                                                 className='email'
-                                                placeholder='Note' {...register("rating")} />
+                                                placeholder='Image' {...register("image")} />
                                             <span></span>
-                                            <label className='email-label'>Note</label>
+                                            <label className='email-label'>Image</label>
                                         </div>
                                     </div>
 

@@ -149,20 +149,35 @@ export const GererProduits = () => {
         });
     }
 
+    const searchProduct = (value) => {
+
+        if (value.length != 0) {
+            AdminService.getProductByName(value)
+            .then(response => {
+                setAllProducts(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+        else if (value.length == 0) {
+            AdminService.getAllProducts()
+            .then(response => {
+                getAllProducts();
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+    }
+
         return (
             <>
             <section className="gerer-clients">
                 <div className="gerer-comm admin-title">
                     <div>Gérer les produits<span className='puce'>•</span></div>
                     <div>
-                        
-                        <select>
-                            <option value={""} disabled>Category</option>
-                            {categories.map((category) => {
-                                <option value={category.id}>{category.title}</option>
-                            })}
-                        </select>
-                        
+                        <input type={'text'} id={'product-name'} onChange={() => {searchProduct(document.getElementById('product-name').value)}} className={'product-name'} placeholder={'Nom du produit'} />                        
                     </div>
                 </div>
                 

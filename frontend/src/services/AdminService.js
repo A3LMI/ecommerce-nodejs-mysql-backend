@@ -15,6 +15,10 @@ class AdminService {
     adminLogIn(email, password) {
         return http.get("http://localhost:8080/admin/login/" + email + "/" + password);
     }
+    
+    getClientByName(name) {
+        return http.get(`http://localhost:8080/client/name/${name}`);
+    }
 
     getClientByID(id) {
         return http.get(`http://localhost:8080/client/id/${id}`);
@@ -45,6 +49,10 @@ class AdminService {
         return http.get(`http://localhost:8080/category/id/${id}`);
     }
 
+    getCategoryByName(name) {
+        return http.get(`http://localhost:8080/category/name/${name}`);
+    }
+
     numberOfCategories() {
         return http.get("http://localhost:8080/category/count");
     }
@@ -68,7 +76,11 @@ class AdminService {
 
     getAllProductsMore() {
         return http.get("http://localhost:8080/product/all");
-    }    
+    }
+
+    getProductByName(name) {
+        return http.get(`http://localhost:8080/product/name/${name}`);
+    }
 
     getProductByID(id) {
         return http.get(`http://localhost:8080/product/id/${id}`);

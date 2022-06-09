@@ -22,6 +22,17 @@ exports.getByLevel = (req, res) => {
   });
 };
 
+exports.getCategoryByName = (req, res) => {
+  Category.getCategoryByName(req.params.name, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.getByID = (req, res) => {
   Category.getByID(req.params.id, (err, data) => {
     if (err)

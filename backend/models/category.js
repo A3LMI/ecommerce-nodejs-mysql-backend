@@ -53,6 +53,21 @@ Category.getByID = (id, result) => {
   });
 };
 
+// get category by name
+Category.getCategoryByName = (name, result) => {
+  let query = "SELECT * FROM category WHERE title LIKE '%" + name + "%'";
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
+};
+
 // get number of categories
 Category.count = (result) => {
   let query = "SELECT count(*) AS count FROM category";

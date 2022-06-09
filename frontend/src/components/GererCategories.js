@@ -123,10 +123,37 @@ export const GererCategories = () => {
         });
     }
 
+    const searchCategory = (value) => {
+
+        if (value.length != 0) {
+            AdminService.getCategoryByName(value)
+            .then(response => {
+                setAllCategories(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+        else if (value.length == 0) {
+            AdminService.getAllCategories()
+            .then(response => {
+                getAllCategories();
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+    }
+
         return (
             <>
             <section className="gerer-clients">
-                <div class="admin-title">Gérer les catégories</div>
+                <div className="gerer-comm admin-title">
+                    <div>Gérer les catégories<span className='puce'>•</span></div>
+                    <div>
+                        <input type={'text'} id={'category-name'} onChange={() => {searchCategory(document.getElementById('category-name').value)}} className={'p-n product-name'} placeholder={'Nom de la catégorie'} />                        
+                    </div>
+                </div>
                 
                 <div class="table-and-btn-course">
                     <table>
@@ -139,13 +166,13 @@ export const GererCategories = () => {
                             <th>Supprimer</th>
                         </tr>
 
-                        {categories && categories.map((category, index) => (
+                        {categories && categories.map((category) => (
                         <>
                             <tr>
-                                <td key={index}>{category.id}</td>
-                                <td key={index}>{category.title}</td>
-                                <td key={index}>{category.description}</td>
-                                <td key={index}>{category.image}</td>
+                                <td>{category.id}</td>
+                                <td>{category.title}</td>
+                                <td>{category.description}</td>
+                                <td>{category.image}</td>
                                 <td class="update">
                                         <div>
                                             <button onClick={() => {handleShowUpdateForm(); setSelectedToUpdate(category)}} class="update-btn">

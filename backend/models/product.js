@@ -54,6 +54,20 @@ Product.getAllMore = (result) => {
   });
 };
 
+// get product by name
+Product.getProductByName = (name, result) => {
+  let query = "SELECT * FROM product WHERE title LIKE '%" + name + "%'";
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
+};
 
 // get product by ID
 Product.getByID = (id, result) => {

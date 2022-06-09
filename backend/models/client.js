@@ -94,6 +94,21 @@ Client.getByID = (id, result) => {
   });
 };
 
+// get client by name
+Client.getClientByName = (name, result) => {
+  let query = "SELECT * FROM `client` WHERE first_name LIKE '%"+ name +"%' || last_name LIKE '%"+ name +"%'";
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+    
+    result(null, res);
+  });
+};
+
 // get client by ID and password
 Client.getByIDAndPassword = (id, password, result) => {
   let query = "SELECT * FROM client WHERE id='"+ id +"' AND password='"+ password +"';";

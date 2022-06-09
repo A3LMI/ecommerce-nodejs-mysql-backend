@@ -38,6 +38,9 @@ module.exports = app => {
     // Get client by ID
     router.get("/client/id/:id", client.getByID);
 
+    // Get client by name
+    router.get("/client/name/:name", client.getClientByName);
+
     // Get client by ID and password
     router.get("/client/:id/:password", client.getByIDAndPassword);    
     
@@ -62,6 +65,9 @@ module.exports = app => {
 
     // Get category by ID
     router.get("/category/id/:id", category.getByID);
+    
+    // Get category by name
+    router.get("/category/name/:name", category.getCategoryByName);
 
     // Get category by level
     router.get("/category/level/:level", category.getByLevel);
@@ -84,6 +90,9 @@ module.exports = app => {
 
     // Get all products v2
     router.get("/product/all", product.getAllMore);
+
+    // Get product by name
+    router.get("/product/name/:name", product.getProductByName);
 
     // Get product by ID
     router.get("/product/id/:id", product.getByID);

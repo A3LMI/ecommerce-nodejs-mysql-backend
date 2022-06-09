@@ -413,8 +413,8 @@ export const GererCommandes = () => {
                                 <td>{order.phone_number}</td>
                                 <td>Le {String(order.delivery_date).slice(0,10)}, à {String(order.delivery_date).slice(11,16)}</td>
                                 <td>{order.message}</td>
-                                <td className='td-center'>{order.quantity}</td>
-                                <td className='td-center'>{order.total} MAD</td>
+                                <td className='td-center'>x{order.quantity}</td>
+                                <td className='td-center'>{order.total}.00 MAD</td>
                                 <td className="update">
                                     <div>
                                         <button onClick={() => {handleShowOrderDetails(); setViewed(order.id); getTotalByOrderID(order.id); setSelectedOrder(order); getAllOrdersDetails(order.id);}} className="update-btn">

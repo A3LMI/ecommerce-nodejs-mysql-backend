@@ -33,6 +33,17 @@ exports.getAllMore = (req, res) => {
   });
 };
 
+exports.getProductByName = (req, res) => {
+  Product.getProductByName(req.params.name, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.getByID = (req, res) => {
   Product.getByID(req.params.id, (err, data) => {
     if (err)

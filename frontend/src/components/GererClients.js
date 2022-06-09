@@ -150,10 +150,37 @@ export const GererClients = () => {
         console.log(selectedToUpdate);
     }
 
+    const searchClient = (value) => {
+
+        if (value.length != 0) {
+            AdminService.getClientByName(value)
+            .then(response => {
+                setAllClients(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+        else if (value.length == 0) {
+            AdminService.getAllClients()
+            .then(response => {
+                getAllClients();
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+    }
+
         return (
             <>
             <section className="gerer-clients">
-                <div class="admin-title">Gérer les clients</div>
+                <div className="gerer-comm admin-title">
+                    <div>Gérer les clients<span className='puce'>•</span></div>
+                    <div>
+                        <input type={'text'} id={'client-name'} onChange={() => {searchClient(document.getElementById('client-name').value)}} className={'p-n product-name'} placeholder={'Nom ou prénom du client'} />                        
+                    </div>
+                </div>
                 
                 <div class="table-and-btn-course">
                     <table>

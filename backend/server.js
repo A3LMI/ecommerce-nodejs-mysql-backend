@@ -6,12 +6,22 @@ const session = require("express-session");
 const MySQLStore  = require('express-mysql-session')(session);
 const db = require("./config/db.js");
 
+/*
 const sessionStore = new MySQLStore ({
   host: "localhost",
   port: 3306,
   user: "root",
   password: "root",
-  database: "ecommerce"
+  database: "dbCha"
+});
+*/
+
+const sessionStore = new MySQLStore ({
+  host: "cafechallenger.ccs25enosue7.us-east-1.rds.amazonaws.com",
+	port: 3306,
+  user: "admin",
+  password: "roottoor",
+  database: "dbCha"
 });
 
 const _sessionStore = new MySQLStore ({}, db.connection);
@@ -28,7 +38,7 @@ app.use(sessions({
 }));
 
 var corsOptions = {
-  origin: "http://localhost:3000"
+  origin: '*'
 };
 
 app.use(cors(corsOptions));

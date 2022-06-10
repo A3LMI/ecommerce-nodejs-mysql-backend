@@ -14,8 +14,7 @@ const Order = function(order) {
 
 // get all orders
 Order.getAll = (result) => {
-  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total FROM `ecommerce`.order, `ecommerce`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id";
-
+  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total, SUM(order_details.quantity) as quantity FROM `dbCha`.order, `dbCha`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id GROUP BY `order`.id";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -30,8 +29,8 @@ Order.getAll = (result) => {
 
 // get orders by date
 Order.getByDate = (date, result) => {
-  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' GROUP BY `order`.`id`";
-
+  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total, SUM(order_details.quantity) as quantity FROM `dbCha`.order, `dbCha`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND `order`.`delivery_date` LIKE '"+ date +"%' GROUP BY `order`.`id`";
+  
   sql.query(query, (err, res) => {
     if (err) {
       console.log("Error: ", err);
@@ -45,7 +44,7 @@ Order.getByDate = (date, result) => {
 
 // get orders delivered
 Order.getDelivered = (date, result) => {
-  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND `order`.delivered=1 GROUP BY `order`.`id`";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `dbCha`.`order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND `order`.delivered=1 GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -60,7 +59,7 @@ Order.getDelivered = (date, result) => {
 
 // get orders by date not viewed
 Order.getByDateNotViewed = (date, result) => {
-  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND viewed=0 GROUP BY `order`.`id`";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `dbCha`.`order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND viewed=0 GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -75,7 +74,7 @@ Order.getByDateNotViewed = (date, result) => {
 
 // get orders by date viewed
 Order.getByDateViewed = (date, result) => {
-  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND viewed=1 GROUP BY `order`.`id`";
+  let query = "SELECT `order`.id, `order`.`client_id`, `client`.`first_name`, `client`.`last_name`, `order`.`address`, `order`.`phone_number`, `order`.`message`, `order`.`delivery_date`, SUM(`order_details`.`quantity`) as quantity, `order`.`delivered`, `order`.`viewed`, SUM(`product`.`price`*`order_details`.`quantity`) as total, `order`.`created_at` FROM `dbCha`.`order`, `client`, `product`, `order_details` WHERE `order`.`client_id`=`client`.`id` AND `product`.`id`=`order_details`.`product_id` AND `order`.id=`order_details`.`order_id` AND `order`.`delivery_date` LIKE '"+ date +"%' AND viewed=1 GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -91,8 +90,8 @@ Order.getByDateViewed = (date, result) => {
 
 // get order by ID
 Order.getByID = (id, result) => {
-  let query = "SELECT * FROM ecommerce.order WHERE id=" + id;
-
+  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total, SUM(order_details.quantity) as quantity FROM `dbCha`.order, `dbCha`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND `order`.id="+ id;
+  
   sql.query(query, (err, res) => {
     if (err) {
       console.log("Error: ", err);
@@ -106,7 +105,7 @@ Order.getByID = (id, result) => {
 
 // get order by client ID
 Order.getByClientID = (id, result) => {
-  let query = "SELECT * FROM ecommerce.order WHERE client_id=" + id;
+  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total, SUM(order_details.quantity) as quantity FROM `dbCha`.order, `dbCha`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND client_id="+ id +" GROUP BY `order`.`id`";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -119,9 +118,50 @@ Order.getByClientID = (id, result) => {
   });
 };
 
+// get order by client ID V2
+Order.getByClientIDv2 = (id, result) => {
+  let query = "SELECT `order`.id, `order`.viewed,`order`.client_id, `order`.address, `order`.phone_number, `order`.message, `order`.delivery_date, `order`.delivered, client.first_name, client.last_name, `order`.created_at, SUM(product.price*order_details.quantity) as total, SUM(order_details.quantity) as quantity FROM `dbCha`.order, `dbCha`.client, product, order_details WHERE client.id=`order`.`client_id` AND `order`.`id`=order_details.order_id AND product.id=order_details.product_id AND client_id="+ id +" GROUP BY `order`.`id`";
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("Error: ", err);
+      result(null, err);
+      return;
+    }
+
+    let order_id = res;
+
+    let order_details;
+
+    let i = 0;
+    while (i<res.length) {
+      let query1 = "SELECT `order_details`.id, `order_details`.`order_id`, `order_details`.`product_id`, `product`.`title`, `product`.`price`, `order_details`.`quantity` FROM `order_details`, `product` WHERE `order_details`.product_id=`product`.id AND `order_id`=" + res[i].id;
+
+      console.log(res[0].id)
+      sql.query(query1, (err, res) => {
+        if (err) {
+          console.log("Error: ", err);
+          result(null, err);
+          return;
+        }
+
+        order_details = res;
+      });
+      i++;
+    }
+
+    console.log(order_details);
+
+    result(null, res);
+    
+    //result(null, {res, order_details});
+    
+  });
+};
+
 // total of orders
 Order.count = (result) => {
-  let query = "SELECT count(*) AS count FROM ecommerce.order";
+  let query = "SELECT count(*) AS count FROM dbCha.order";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -136,7 +176,7 @@ Order.count = (result) => {
 
 // total of orders delivered
 Order.countDelivered = (result) => {
-  let query = "SELECT count(*) AS count FROM ecommerce.order WHERE delivered=1";
+  let query = "SELECT count(*) AS count FROM dbCha.order WHERE delivered=1";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -151,7 +191,7 @@ Order.countDelivered = (result) => {
 
 // total of orders NOT delivered
 Order.countNotDelivered = (result) => {
-  let query = "SELECT count(*) AS count FROM ecommerce.order WHERE delivered=0";
+  let query = "SELECT count(*) AS count FROM dbCha.order WHERE delivered=0";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -166,7 +206,7 @@ Order.countNotDelivered = (result) => {
 
 // create order
 Order.create = (cart_id, newOrder, result) => {
-  sql.query("INSERT INTO ecommerce.order SET ?", newOrder, (err, res) => {
+  sql.query("INSERT INTO dbCha.order SET ?", newOrder, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       result(err, null);
@@ -175,7 +215,7 @@ Order.create = (cart_id, newOrder, result) => {
 
     console.log("Order created succesfully !", { ...newOrder });
 
-    let query = "SELECT * FROM `order` WHERE `client_id`="+ newOrder.client_id +" ORDER BY `created_at` DESC LIMIT 1";
+    let query = "SELECT * FROM `dbCha`.`order` WHERE `client_id`="+ newOrder.client_id +" ORDER BY `created_at` DESC LIMIT 1";
 
     sql.query(query, (err, res) => {
 
@@ -245,7 +285,7 @@ Order.create = (cart_id, newOrder, result) => {
 // update order
 Order.update = (id, order, result) => {
   sql.query(
-    `UPDATE ecommerce.order
+    `UPDATE dbCha.order
      SET client_id=?, address=?, phone_number=?, delivery_date=?, delivered=?, viewed=?
      WHERE id=?`,
     [order.client_id, order.address, order.phone_number, order.delivery_date, order.delivered, order.viewed, id],
@@ -269,7 +309,7 @@ Order.update = (id, order, result) => {
 // set viewed order
 Order.setViewed = (id, result) => {
   sql.query(
-    `UPDATE ecommerce.order
+    `UPDATE dbCha.order
      SET viewed=true
      WHERE id=?`,
     [id],
@@ -293,7 +333,7 @@ Order.setViewed = (id, result) => {
 // set delivered order
 Order.setOrderDelivered = (id, result) => {
   sql.query(
-    `UPDATE ecommerce.order
+    `UPDATE dbCha.order
      SET delivered=true
      WHERE id=?`,
     [id],
@@ -316,7 +356,7 @@ Order.setOrderDelivered = (id, result) => {
 
 // delete order by id
 Order.delete = (id, result) => {
-  sql.query("DELETE FROM ecommerce.order WHERE id=?", id, (err, res) => {
+  sql.query("DELETE FROM dbCha.order WHERE id=?", id, (err, res) => {
     if (err) {
       console.log("Error: ", err);
       result(null, err);

@@ -130,6 +130,9 @@ module.exports = app => {
 
     // Get order by client ID
     router.get("/order/clientID/:id", order.getByClientID);
+
+    // Get order by client ID V2
+    router.get("/order/clientID/:id/v2", order.getByClientIDv2);
     
     // Get number of orders
     router.get("/order/count", order.count);

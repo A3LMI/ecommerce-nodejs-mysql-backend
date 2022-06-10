@@ -77,6 +77,17 @@ exports.getByClientID = (req, res) => {
   });
 };
 
+exports.getByClientIDv2 = (req, res) => {
+  Order.getByClientIDv2(req.params.id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    else res.send(data);
+  });
+};
+
 exports.count = (req, res) => {
   Order.count((err, data) => {
     if (err)

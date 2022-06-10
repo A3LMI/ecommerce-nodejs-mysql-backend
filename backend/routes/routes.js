@@ -156,28 +156,28 @@ module.exports = app => {
     router.delete("/order/:id", order.delete);
 
     /***** ORDER DETAILS *****/
-    // Get order details by order
+    // Get order details by ID
     router.get("/order-details/id/:id", orderDetails.getByID);
 
-    // Get order details by order
+    // Get order details by order ID
     router.get("/order-details/orderID/:id", orderDetails.getByOrderID);
 
     // Get total by order ID
     router.get("/order-details/orderID/:id/total", orderDetails.getTotalByOrderID);
     
-    // Get number of order details by order
+    // Get number of order details by order ID
     router.get("/order-details/orderID/:id/count", orderDetails.count);
 
     // Create order detail (add product to order)
     router.post("/order-details", orderDetails.create);
 
-    // Update order detail
+    // Update
     router.put("/order-details/:id", orderDetails.update);
 
-    // Update order detail : set delivered
+    // set delivered
     router.put("/order-details/:id/delivered", orderDetails.setDelivered);    
     
-    // Delete order detail (delete product from order)
+    // Delete (delete product from order)
     router.delete("/order-details/:id", orderDetails.delete);
 
     /***** CART *****/

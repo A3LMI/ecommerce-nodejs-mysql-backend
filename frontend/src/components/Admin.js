@@ -4,21 +4,17 @@ import { MdOutlineFastfood } from 'react-icons/md';
 import { RiRestaurantLine } from 'react-icons/ri';
 import { BiLogOut } from 'react-icons/bi';
 import { BsFillPersonFill, BsFillBookmarksFill } from 'react-icons/bs';
-import { BiTask } from 'react-icons/bi';
 
-
-import { BrowserRouter, Outlet, Link } from 'react-router-dom';
-
-import { useState } from 'react';
-
-import { AdminDashboard } from './AdminDashboard';
+import { Outlet, Link } from 'react-router-dom';
 
 export const Admin = () => {
 
+    /*
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    */
 
     return (
         <section className='admin'>
@@ -29,7 +25,7 @@ export const Admin = () => {
                 </div>
 
                 <div className='admin-panel'>
-                    <div>Panneau d'administration</div>
+                    <div>Espace Administrateur</div>
                 </div>
             </div>
 

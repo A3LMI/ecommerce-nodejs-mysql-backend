@@ -52,6 +52,7 @@ export const GererCommandes = () => {
         AdminService.getOrderByDate(date)
         .then(response => {
             setAllOrders(response.data);
+            setTotal(response.data);
         })
         .catch(e => {
             console.log(e);
@@ -622,11 +623,10 @@ export const GererCommandes = () => {
                             <Modal.Body className='add-reservation-form'>
                                 {
                                    
-                                    total.length === 0 ? <div>Aucun produit</div> : 
+                                    total.length == 0 ? <div>Aucun produit</div> : 
                                     <>
                                     <table>
                                         <tr>
-                                            <th className='empty-th'></th>
                                             <th>Produit</th>
                                             <th>Prix</th>
                                             <th>Quantité</th>
@@ -634,18 +634,15 @@ export const GererCommandes = () => {
     
                                         {ordersDetails && ordersDetails.map((order) => (
                                             <tr  onLoad={() => {handleCheckbox(order.id)}}>
-                                                <td className='td-checkbox'>Livrée : <input id={'_checkbox'}  onChange={() => {return true}} value={order.delivered} type={"checkbox"}/></td>
+                                                {/*<td className='td-checkbox'>Livrée : <input id={'_checkbox'}  onChange={() => {return true}} value={order.delivered} type={"checkbox"}/></td>*/}
                                                 <td>{order.title}</td>
                                                 <td className='td-center'>{order.price}.00 MAD</td>
                                                 <td className='td-center'>x{order.quantity}</td>
                                             </tr>
                                         ))}
-
-                                        <tr>
-                                            <td colspan="3" className='td-checkbox'>Total</td>
-                                            <td colspan="1" className='td-center'>{total[0].total}.00 MAD</td>
-                                        </tr>
                                     </table>
+
+                                    <div>Test + {/* If total == 0 -> no orer foun */}</div>
                                     
                                     <div className='total'>Total : {total[0].total}.00 MAD</div>
                                     </>

@@ -188,7 +188,6 @@
   padding: 20px 75px;
   display: flex;
   flex-direction: column;
-  background-color: rgb(243, 243, 243);
 }
 
 .admin-title {
@@ -457,6 +456,7 @@ table th {
   border-radius: 4px;
   background-color: white;
   margin-right: 30px;
+  background-color: rgb(245, 245, 245);
 }
 
 .total-clients:last-child {

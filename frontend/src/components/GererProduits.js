@@ -1,9 +1,6 @@
-import { RiAddFill } from 'react-icons/ri';
 import { MdModeEdit, MdDeleteForever } from 'react-icons/md';
 
 import AdminService from "../services/AdminService";
-
-import { v4 as uuidv4 } from 'uuid';
 
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
@@ -201,7 +198,7 @@ export const GererProduits = () => {
                                 <td key={index}>{product.id}</td>
                                 <td >{product.title}</td>
                                 <td >{product.description}</td>
-                                <td >{product.price}</td>
+                                <td >{product.price}.00 MAD</td>
                                 <td >{product.category_title}</td>
                                 <td >{product.rating}</td>
                                 <td >{product.image}</td>
